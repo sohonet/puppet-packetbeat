@@ -1,28 +1,136 @@
 # Class: packetbeat
 # ===========================
 #
-# Full description of class packetbeat here.
+# This class installs the Elastic packetbeat network packet analyzer
+# and manages the configuration.
 #
 # Parameters
 # ----------
 #
 # Document parameters here.
 #
-# * `sample parameter`
-# Explanation of what this parameter affects and what it defaults to.
-# e.g. "Specify one or more upstream ntp servers as an array."
+# * `outputs`
+# [Hash] The names and parameters of the perferred output target(s).
 #
-# Variables
-# ----------
+# * `protocols`
+# [Hash] The names and parameters of the transaction protocols to configure.
+# See https://www.elastic.co/guide/en/beats/packetbeat/current/configuration-protocols.html
+# for the full list of protocols supported by Packetbeat.
 #
-# Here you should define a list of variables that this module would require.
+# * `ensure`
+# [String] Determines weather all resources should be managed or removed
+# from the target node. Must be 'present' or 'absent'.
+# (default: 'present')
 #
-# * `sample variable`
-#  Explanation of how this variable affects the function of this class and if
-#  it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#  External Node Classifier as a comma separated list of hostnames." (Note,
-#  global variables should be avoided in favor of class parameters as
-#  of Puppet 2.6.)
+# * `beat_name`
+# [String] The name of the beat, also included in each published transaction.
+# (default: $::fqdn)
+#
+# * `config_file_mode`
+# [String] The octal permission mode set for configuration files on Linux
+# nodes. (default: '0644')
+# 
+# * `device`
+# [String] The name of the interface device from which to capture the 
+# traffic. (default: 'any' for Linux, '0' for Windows)
+#
+# * `download_url`
+# [String] The URL of the ZIP file that should be downloaded to install
+# packetbeat. (windows only)
+#
+# * `fields`
+# [Any] Optional fields to add additional information to the output.
+# (default: undef)
+#
+# * `fields_under_root`
+# [Boolean] By default libbeat stores custom fields under a `fields`
+# sub-dictionary. Set this to true to store custom fields in the
+# top-level field. (default: false)
+#
+# * `flow_enable`
+# [Boolean] Toggles the option to capture bidirectional network flows.
+# (default: true)
+#
+# * `flow_period`
+# [String] Configures the flow period, where all flows are reported
+# simultaneously. Setting to '-1' disables this feature, flows are then
+# reported when timed out. (default: 10s)
+#
+# * `flow_timeout`
+# [String] The maximum reportable lifetime of a network flow. This option
+# can be suffixed with s for seconds, m for minutes, h for hours, etc.
+# (default: 30s)
+#
+# * `install_dir`
+# [String] The filesystem location where packetbeat should be installed.
+# (windows only)
+#
+# * `logging`
+# [Hash] The configuration section of `packetbeat.yml` for configuring the
+# logging output.
+#
+# * `manage_repo`
+# [Boolean] Weather the upstream (elastic) repo should be configured or
+# not. (default: true)
+#
+# * `package_ensure`
+# [String] The state the packetbeat package should be in. (default: present)
+#
+# * `path_conf`
+# [Absolute Path] The location of the configuration files. This setting
+# also controls the path to `packetbeat.yml`.
+#
+# * `path_data`
+# [Absolute Path] The location of the persistent data files.
+#
+# * `path_home`
+# [Absolute Path] The home of the Packetbeat configuration.
+#
+# * `path_logs`
+# [Absolute Path] The location of the logs created by Packetbeat.
+#
+# * `queue_size`
+# [Number] The internal queue size for single events in the processing
+# pipeline. (default: 1000)
+#
+# * `service_ensure`
+# [String] The desired state of the packetbeat service. Must be one of
+# 'enabled', 'disabled', 'running' or 'unmanaged'. (default: 'enabled')
+#
+# * `service_has_restart`
+# [Boolean] Tells the Service resource to issue a 'restart' command instead
+# of 'stop' then 'start'. (default: true)
+#
+# * `snaplen`
+# [Number] The maximum size of the packetsto capture. If the device is a
+# physical interface the MTU size is the optimal setting. (default: 65535)
+#
+# * `sniff_type`
+# [String] The sniffer type to use. Packet only has support for pcap,
+# af_packet and pf_ring. (default: 'pcap')
+#
+# * `tags`
+# [Array] A list of values to include in the `tags` field in each published
+# message, making it easier to group servers by logical property.
+# (default: [])
+#
+# * `buffer_size_mb`
+# [Number] The maximum size of the shared memory buffer between the kernel
+# and the user space. This is only applicable if $sniff_type == 'af_packet'
+# (default: undef)
+# 
+# * `with_vlans`
+# [Boolean] If the captured traffic contains VLAN tags the BPF filter
+# Packetbeat automatically generates becomes ineffective because all
+# the traffic is offset by four bytes. Set this to true to configure
+# Packetbeat to filter VLAN tags. This is only applicable if 
+# $sniff_type == 'af_packet'
+#
+# * `bpf_filter`
+# [String] Configure a custom BPF filter for capturing traffic on the
+# device. This disables automatic filter generation in Packetbeat, it
+# is the responsibility of the users to keep this in-sync with the
+# protocols
 #
 # Examples
 # --------
@@ -32,17 +140,83 @@
 #      servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
 #    }
 #
-# Authors
-# -------
 #
-# Author Name <author@domain.com>
+# Corey Hammerton <corey.hammerton@gmail.com>
 #
-# Copyright
-# ---------
-#
-# Copyright 2017 Your name here, unless otherwise noted.
-#
-class packetbeat {
+class packetbeat(
+  $outputs,
+  $protocols,
+  $ensure              = $packetbeat::params::ensure,
+  $beat_name           = $packetbeat::params::beat_name,
+  $bpf_filter          = $packetbeat::params::bpf_filter,
+  $buffer_size_mb      = $packetbeat::params::buffer_size_mb,
+  $config_file_mode    = $packetbeat::params::config_file_mode,
+  $device              = $packetbeat::params::device,
+  $download_url        = $packetbeat::params::download_url,
+  $fields              = $packetbeat::params::fields,
+  $fields_under_root   = $packetbeat::params::fields_under_root,
+  $flow_enable         = $packetbeat::params::flow_enable,
+  $flow_period         = $packetbeat::params::flow_period,
+  $flow_timeout        = $packetbeat::params::flow_timeout,
+  $logging             = $packetbeat::params::logging,
+  $manage_repo         = $packetbeat::params::manage_repo,
+  $package_ensure      = $packetbeat::params::package_ensure,
+  $path_conf           = $packetbeat::params::path_conf,
+  $path_data           = $packetbeat::params::path_data,
+  $path_home           = $packetbeat::params::path_home,
+  $path_logs           = $packetbeat::params::path_logs,
+  $queue_size          = $packetbeat::params::queue_size,
+  $service_ensure      = $packetbeat::params::service_ensure,
+  $service_has_restart = $packetbeat::params::service_has_restart,
+  $snaplen             = $packetbeat::params::snaplen,
+  $sniff_type          = $packetbeat::params::sniff_type,
+  $tags                = $packetbeat::params::tags,
+  $with_vlans          = $packetbeat::params::with_vlans,
+) inherits packetbeat::params {
+  if !($ensure in ['present', 'absent']) {
+    fail("\$ensure can only be one of 'present' or 'absent', $ensure given")
+  }
+  if !($service_ensure in ['enabled', 'disabled', 'running', 'unmanaged']) {
+    fail("\$service_ensure can only be one of 'enabled', 'disabled', 'running' or 'unmanaged'. $service_ensure given")
+  }
+  if !($sniff_type in ['pcap', 'af_packet', 'pf_ring']) {
+    fail("Unsupported sniffer type $sniff_type")
+  }
+  validate_absolute_path($path_conf, $path_data, $path_home, $path_logs)
+  validate_array($tags)
+  validate_bool($fields_under_root, $flow_enable, $manage_repo, $service_has_restart)
+  validate_hash($logging, $protocols)
+  validate_integer($queue_size, $snaplen)
+  validate_string($beat_name, $config_file_mode, $device, $flow_period, $flow_timeout, $package_ensure)
 
+  $dir_ensure = $ensure ? {
+    'present' => "directory",
+    default   => "absent",
+  }
 
+  if $manage_repo {
+    class{"packetbeat::repo":}
+
+    Anchor["packetbeat::begin"]
+    -> Class["packetbeat::repo"]
+  }
+
+  if $ensure == 'present' {
+    Anchor["packetbeat::begin"]
+    -> Class["packetbeat::install"]
+    -> Class["packetbeat::config"]
+    ~> Class["packetbeat::service"]
+  }
+  else {
+    Anchor["packetbeat::begin"]
+    -> Class["packetbeat::service"]
+    -> Class["packetbeat::install"]
+  }
+
+  anchor{"packetbeat::begin":}
+  class{"packetbeat::config":}
+  class{"packetbeat::install":
+    notify => Class["packetbeat::service"],
+  }
+  class{"packetbeat::service":}
 }
