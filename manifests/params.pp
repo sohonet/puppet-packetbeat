@@ -8,21 +8,6 @@ class packetbeat::params {
   $fields_under_root   = false
   $flow_enable         = true
   $flow_period         = "10s"
-  $flow_timeout        = "30s"
-  $logging             = {
-    "to_files" => true,
-    "level"    => "info",
-    "metrics"  => {
-      "enabled" => true,
-      "period"  => "30s",
-    },
-    "files"    => {
-      "path"             => $path_logs,
-      "name"             => "packetbeat",
-      "keepfiles"        => 7,
-      "rotateeverybytes" => 10485760,
-    },
-  }
   $manage_repo         = true
   $package_ensure      = $ensure
   $queue_size          = 1000
@@ -55,5 +40,19 @@ class packetbeat::params {
     default: {
       fail("$::kernel is not supported by packetbeat")
     }
+  }
+  $logging             = {
+    "to_files" => true,
+    "level"    => "info",
+    "metrics"  => {
+      "enabled" => true,
+      "period"  => "30s",
+    },
+    "files"    => {
+      "path"             => $path_logs,
+      "name"             => "packetbeat",
+      "keepfiles"        => 7,
+      "rotateeverybytes" => 10485760,
+    },
   }
 }
