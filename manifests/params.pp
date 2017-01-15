@@ -8,6 +8,7 @@ class packetbeat::params {
   $fields_under_root   = false
   $flow_enable         = true
   $flow_period         = "10s"
+  $flow_timeout        = "30s"
   $manage_repo         = true
   $package_ensure      = $ensure
   $queue_size          = 1000
