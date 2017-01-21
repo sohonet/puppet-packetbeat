@@ -40,14 +40,6 @@ class packetbeat::config {
         validate_cmd => "${packetbeat::path_home}/bin/packetbeat -N -configtest -e %",
       }
     }
-    'Windows': {
-      file{"packetbeat.yml":
-        ensure       => $packetbeat::ensure,
-        path         => "${packetbeat::path_conf}/packetbeat.yml",
-        content      => inline_template("### Packetbeat configuration managed by Puppet ###\n\n<%= @packetbeat_config.to_yaml() %>"),
-        validate_cmd => "${packetbeat::path_home}/bin/packetbeat -N -configtest -e %",
-      }
-    }
     default:   {
       fail("$::kernel is not supported by packetbeat")
     }

@@ -32,7 +32,7 @@
 # 
 # * `device`
 # [String] The name of the interface device from which to capture the 
-# traffic. (default: 'any' for Linux, '0' for Windows)
+# traffic. (default: 'any')
 #
 # * `fields`
 # [Any] Optional fields to add additional information to the output.
