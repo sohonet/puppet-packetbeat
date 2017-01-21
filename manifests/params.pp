@@ -22,26 +22,16 @@ class packetbeat::params {
   case $::kernel {
     'Linux': {
       $device       = "any"
-      $download_url = undef
-      $install_dir  = undef
       $path_conf    = "/etc/packetbeat"
       $path_data    = "/var/lib/packetbeat"
       $path_home    = "/usr/share/packetbeat"
       $path_logs    = "/var/log/packetbeat"
     }
-    'Windows': {
-      $device       = "0"
-      $download_url = "https://artifacts.elastic.co/downloads/beats/packetbeat/packetbeat-5.1.1-windows-x86_64.zip"
-      $install_dir  = "C:/Program Files"
-      $path_conf    = "${install_dir}/Packetbeat"
-      $path_data    = "${install_dir}/Packetbeat/data"
-      $path_home    = "${install_dir}/Packetbeat"
-      $path_data    = "${install_dir}/Packetbeat/logs"
-    }
     default: {
       fail("$::kernel is not supported by packetbeat")
     }
   }
+
   $logging             = {
     "to_files" => true,
     "level"    => "info",

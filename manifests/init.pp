@@ -34,10 +34,6 @@
 # [String] The name of the interface device from which to capture the 
 # traffic. (default: 'any' for Linux, '0' for Windows)
 #
-# * `download_url`
-# [String] The URL of the ZIP file that should be downloaded to install
-# packetbeat. (windows only)
-#
 # * `fields`
 # [Any] Optional fields to add additional information to the output.
 # (default: undef)
@@ -60,10 +56,6 @@
 # [String] The maximum reportable lifetime of a network flow. This option
 # can be suffixed with s for seconds, m for minutes, h for hours, etc.
 # (default: 30s)
-#
-# * `install_dir`
-# [String] The filesystem location where packetbeat should be installed.
-# (windows only)
 #
 # * `logging`
 # [Hash] The configuration section of `packetbeat.yml` for configuring the
@@ -152,7 +144,6 @@ class packetbeat(
   $buffer_size_mb      = $packetbeat::params::buffer_size_mb,
   $config_file_mode    = $packetbeat::params::config_file_mode,
   $device              = $packetbeat::params::device,
-  $download_url        = $packetbeat::params::download_url,
   $fields              = $packetbeat::params::fields,
   $fields_under_root   = $packetbeat::params::fields_under_root,
   $flow_enable         = $packetbeat::params::flow_enable,
