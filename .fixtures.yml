@@ -3,12 +3,6 @@ fixtures:
     apt:
       repo: "puppetlabs/apt"
       ref: 2.0.0
-    powershell:
-      repo: "puppetlabs/powershell"
-      ref: 2.0.0
-    staging:
-      repo: "puppet/staging"
-      ref: 2.0.0
     stdlib:
       repo: "puppetlabs/stdlib"
       ref: 4.6.0
