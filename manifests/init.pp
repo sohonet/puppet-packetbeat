@@ -136,34 +136,34 @@
 # Corey Hammerton <corey.hammerton@gmail.com>
 #
 class packetbeat(
-  $outputs,
-  $protocols,
-  $ensure              = $packetbeat::params::ensure,
-  $beat_name           = $packetbeat::params::beat_name,
-  $bpf_filter          = $packetbeat::params::bpf_filter,
-  $buffer_size_mb      = $packetbeat::params::buffer_size_mb,
-  $config_file_mode    = $packetbeat::params::config_file_mode,
-  $device              = $packetbeat::params::device,
-  $fields              = $packetbeat::params::fields,
-  $fields_under_root   = $packetbeat::params::fields_under_root,
-  $flow_enable         = $packetbeat::params::flow_enable,
-  $flow_period         = $packetbeat::params::flow_period,
-  $flow_timeout        = $packetbeat::params::flow_timeout,
-  $logging             = $packetbeat::params::logging,
-  $manage_repo         = $packetbeat::params::manage_repo,
-  $package_ensure      = $packetbeat::params::package_ensure,
-  $path_conf           = $packetbeat::params::path_conf,
-  $path_data           = $packetbeat::params::path_data,
-  $path_home           = $packetbeat::params::path_home,
-  $path_logs           = $packetbeat::params::path_logs,
-  $queue_size          = $packetbeat::params::queue_size,
-  $service_ensure      = $packetbeat::params::service_ensure,
-  $service_has_restart = $packetbeat::params::service_has_restart,
-  $snaplen             = $packetbeat::params::snaplen,
-  $sniff_type          = $packetbeat::params::sniff_type,
-  $tags                = $packetbeat::params::tags,
-  $with_vlans          = $packetbeat::params::with_vlans,
-) inherits packetbeat::params {
+  [Hash] $outputs,
+  [Hash] $protocols,
+  [String] $ensure,
+  [String] $beat_name,
+  [String] $bpf_filter,
+  [Integer] $buffer_size_mb,
+  [String] $config_file_mode,
+  [String] $device,
+  Optional[Hash] $fields,
+  [Boolean] $fields_under_root,
+  [Boolean] $flow_enable,
+  [String] $flow_period,
+  [String] $flow_timeout,
+  [Hash] $logging,
+  [Boolean] $manage_repo,
+  [String] $package_ensure,
+  [Stdlib::Absolutepath] $path_conf,
+  [Stdlib::Absolutepath] $path_data,
+  [Stdlib::Absolutepath] $path_home,
+  [Stdlib::Absolutepath] $path_logs,
+  [Integer] $queue_size,
+  [String] $service_ensure,
+  [Boolean] $service_has_restart,
+  [Integer] $snaplen,
+  [String] $sniff_type,
+  Optional[Array[String]] $tags,
+  [Boolean] $with_vlans,
+) {
   if !($ensure in ['present', 'absent']) {
     fail("\$ensure can only be one of 'present' or 'absent', $ensure given")
   }
@@ -173,12 +173,6 @@ class packetbeat(
   if !($sniff_type in ['pcap', 'af_packet', 'pf_ring']) {
     fail("Unsupported sniffer type $sniff_type")
   }
-  validate_absolute_path($path_conf, $path_data, $path_home, $path_logs)
-  validate_array($tags)
-  validate_bool($fields_under_root, $flow_enable, $manage_repo, $service_has_restart)
-  validate_hash($logging, $protocols)
-  validate_integer($queue_size, $snaplen)
-  validate_string($beat_name, $config_file_mode, $device, $flow_period, $flow_timeout, $package_ensure)
 
   $dir_ensure = $ensure ? {
     'present' => "directory",
