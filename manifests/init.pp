@@ -138,7 +138,7 @@
 class packetbeat(
   [Hash] $outputs,
   [Hash] $protocols,
-  [String] $ensure,
+  Pattern[/^present|absent$/] $ensure,
   [String] $beat_name,
   [String] $bpf_filter,
   [Integer] $buffer_size_mb,
@@ -157,23 +157,13 @@ class packetbeat(
   [Stdlib::Absolutepath] $path_home,
   [Stdlib::Absolutepath] $path_logs,
   [Integer] $queue_size,
-  [String] $service_ensure,
+  Pattern[/^enabled|disabled|running|unmanaged$/] $service_ensure,
   [Boolean] $service_has_restart,
   [Integer] $snaplen,
-  [String] $sniff_type,
+  Patterh[/^pcap|af_packet|pf_ring$/] $sniff_type,
   Optional[Array[String]] $tags,
   [Boolean] $with_vlans,
 ) {
-  if !($ensure in ['present', 'absent']) {
-    fail("\$ensure can only be one of 'present' or 'absent', $ensure given")
-  }
-  if !($service_ensure in ['enabled', 'disabled', 'running', 'unmanaged']) {
-    fail("\$service_ensure can only be one of 'enabled', 'disabled', 'running' or 'unmanaged'. $service_ensure given")
-  }
-  if !($sniff_type in ['pcap', 'af_packet', 'pf_ring']) {
-    fail("Unsupported sniffer type $sniff_type")
-  }
-
   $dir_ensure = $ensure ? {
     'present' => "directory",
     default   => "absent",
