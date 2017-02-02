@@ -138,73 +138,73 @@
 class packetbeat(
   Hash $outputs,
   Hash $protocols,
-  Pattern[/^present|absent$/] $ensure                             = "present",
-  String $beat_name                                               = ${hostname},
+  Pattern[/^present|absent$/] $ensure                             = 'present',
+  String $beat_name                                               = $::hostname,
   Optional[String] $bpf_filter                                    = undef,
   Optional[Integer] $buffer_size_mb                               = undef,
-  String $config_file_mode                                        = "0644",
-  String $device                                                  = "any",
+  String $config_file_mode                                        = '0644',
+  String $device                                                  = 'any',
   Hash $fields                                                    = {},
   Boolean $fields_under_root                                      = false,
   Boolean $flow_enable                                            = true,
-  String $flow_period                                             = "10s",
-  String $flow_timeout                                            = "30s",
+  String $flow_period                                             = '10s',
+  String $flow_timeout                                            = '30s',
   Hash $logging                                                   = {
-    "to_files" => true,
-    "level"    => "info",
-    "metrics"  => {
-      "enabled" => true,
-      "period"  => "30s"
+    'to_files' => true,
+    'level'    => 'info',
+    'metrics'  => {
+      'enabled' => true,
+      'period'  => '30s'
     },
-    "files"    => {
-      "name"             => "packetbeat",
-      "keepfiles"        => 7,
-      "path"             => "/var/log/packetbeat",
-      "rotateeverybytes" => 10485760,
+    'files'    => {
+      'name'             => 'packetbeat',
+      'keepfiles'        => 7,
+      'path'             => '/var/log/packetbeat',
+      'rotateeverybytes' => 10485760,
     }
   },
   Boolean $manage_repo                                            = true,
-  String $package_ensure                                          = "present",
-  Stdlib::Absolutepath $path_conf                                 = "/etc/packetbeat",
-  Stdlib::Absolutepath $path_data                                 = "/var/lib/packetbeat",
-  Stdlib::Absolutepath $path_home                                 = "/usr/share/packetbeat",
-  Stdlib::Absolutepath $path_logs                                 = "/var/log/packetbeat",
+  String $package_ensure                                          = 'present',
+  Stdlib::Absolutepath $path_conf                                 = '/etc/packetbeat',
+  Stdlib::Absolutepath $path_data                                 = '/var/lib/packetbeat',
+  Stdlib::Absolutepath $path_home                                 = '/usr/share/packetbeat',
+  Stdlib::Absolutepath $path_logs                                 = '/var/log/packetbeat',
   Integer $queue_size                                             = 1000,
-  Pattern[/^enabled|disabled|running|unmanaged$/] $service_ensure = "enabled",
+  Pattern[/^enabled|disabled|running|unmanaged$/] $service_ensure = 'enabled',
   Boolean $service_has_restart                                    = true,
   Integer $snaplen                                                = 65535,
-  Patterh[/^pcap|af_packet|pf_ring$/] $sniff_type                 = "pcap",
+  Patterh[/^pcap|af_packet|pf_ring$/] $sniff_type                 = 'pcap',
   Array[String] $tags                                             = [],
   Optional[Boolean] $with_vlans                                   = undef,
 ) {
   $dir_ensure = $ensure ? {
-    'present' => "directory",
-    default   => "absent",
+    'present' => 'directory',
+    default   => 'absent',
   }
 
   if $manage_repo {
-    class{"packetbeat::repo":}
+    class{'packetbeat::repo':}
 
-    Anchor["packetbeat::begin"]
-    -> Class["packetbeat::repo"]
+    Anchor['packetbeat::begin']
+    -> Class['packetbeat::repo']
   }
 
   if $ensure == 'present' {
-    Anchor["packetbeat::begin"]
-    -> Class["packetbeat::install"]
-    -> Class["packetbeat::config"]
-    ~> Class["packetbeat::service"]
+    Anchor['packetbeat::begin']
+    -> Class['packetbeat::install']
+    -> Class['packetbeat::config']
+    ~> Class['packetbeat::service']
   }
   else {
-    Anchor["packetbeat::begin"]
-    -> Class["packetbeat::service"]
-    -> Class["packetbeat::install"]
+    Anchor['packetbeat::begin']
+    -> Class['packetbeat::service']
+    -> Class['packetbeat::install']
   }
 
-  anchor{"packetbeat::begin":}
-  class{"packetbeat::config":}
-  class{"packetbeat::install":
-    notify => Class["packetbeat::service"],
+  anchor{'packetbeat::begin':}
+  class{'packetbeat::config':}
+  class{'packetbeat::install':
+    notify => Class['packetbeat::service'],
   }
-  class{"packetbeat::service":}
+  class{'packetbeat::service':}
 }
