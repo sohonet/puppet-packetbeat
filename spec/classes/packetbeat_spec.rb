@@ -35,6 +35,10 @@ describe 'packetbeat' , :type => 'class' do
       it do
         is_expected.to compile.with_all_deps
 
+        should contain_class('packetbeat::config')
+        should contain_class('packetbeat::install')
+        should contain_class('packetbeat::repo')
+        should contain_class('packetbeat::service')
         should contain_yumrepo('beats').with(
           baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
           enabled: 1,
@@ -77,6 +81,9 @@ describe 'packetbeat' , :type => 'class' do
         is_expected.not_to contain_class('packetbeat::repo')
         is_expected.not_to contain_yumrepo('beats')
 
+        should contain_class('packetbeat::config')
+        should contain_class('packetbeat::install')
+        should contain_class('packetbeat::service')
         should contain_package('packetbeat').with(
           ensure: 'present'
         )
@@ -112,6 +119,10 @@ describe 'packetbeat' , :type => 'class' do
       it do
         is_expected.to compile.with_all_deps
 
+        should contain_class('packetbeat::config')
+        should contain_class('packetbeat::install')
+        should contain_class('packetbeat::repo')
+        should contain_class('packetbeat::service')
         should contain_yumrepo('beats').with(
           baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
           enabled: 1,
@@ -153,6 +164,10 @@ describe 'packetbeat' , :type => 'class' do
       it do
         is_expected.to compile.with_all_deps
 
+        should contain_class('packetbeat::config')
+        should contain_class('packetbeat::install')
+        should contain_class('packetbeat::repo')
+        should contain_class('packetbeat::service')
         should contain_yumrepo('beats').with(
           baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
           enabled: 1,
@@ -194,6 +209,10 @@ describe 'packetbeat' , :type => 'class' do
       it do
         is_expected.to compile.with_all_deps
 
+        should contain_class('packetbeat::config')
+        should contain_class('packetbeat::install')
+        should contain_class('packetbeat::repo')
+        should contain_class('packetbeat::service')
         should contain_yumrepo('beats').with(
           baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
           enabled: 1,
@@ -235,6 +254,10 @@ describe 'packetbeat' , :type => 'class' do
       it do
         is_expected.to compile.with_all_deps
 
+        should contain_class('packetbeat::config')
+        should contain_class('packetbeat::install')
+        should contain_class('packetbeat::repo')
+        should contain_class('packetbeat::service')
         should contain_yumrepo('beats').with(
           baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
           enabled: 1,
@@ -276,6 +299,10 @@ describe 'packetbeat' , :type => 'class' do
       it do
         is_expected.to compile.with_all_deps
 
+        should contain_class('packetbeat::config')
+        should contain_class('packetbeat::install')
+        should contain_class('packetbeat::repo')
+        should contain_class('packetbeat::service')
         should contain_yumrepo('beats').with(
           baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
           enabled: 1,
@@ -317,6 +344,10 @@ describe 'packetbeat' , :type => 'class' do
       it do
         is_expected.to compile.with_all_deps
 
+        should contain_class('packetbeat::config')
+        should contain_class('packetbeat::install')
+        should contain_class('packetbeat::repo')
+        should contain_class('packetbeat::service')
         should contain_yumrepo('beats').with(
           baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
           enabled: 1,
