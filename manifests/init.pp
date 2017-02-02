@@ -194,6 +194,9 @@ class packetbeat(
     -> Class['packetbeat::install']
     -> Class['packetbeat::config']
     ~> Class['packetbeat::service']
+
+    Class['packetbeat::install']
+    ~> Class['packetbeat::service']
   }
   else {
     Anchor['packetbeat::begin']
@@ -203,8 +206,6 @@ class packetbeat(
 
   anchor{'packetbeat::begin':}
   class{'packetbeat::config':}
-  class{'packetbeat::install':
-    notify => Class['packetbeat::service'],
-  }
+  class{'packetbeat::install':}
   class{'packetbeat::service':}
 }

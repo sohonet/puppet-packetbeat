@@ -1,8 +1,15 @@
 class packetbeat::install {
+  if $packetbeat::ensure == 'present' {
+    $package_ensure = $packetbeat::package_ensure
+  }
+  else {
+    $package_ensure = $packetbeat::ensure
+  }
+
   case $::kernel {
     'Linux': {
       package{'packetbeat':
-        ensure => $packetbeat::package_ensure,
+        ensure => $package_ensure,
       }
     }
     default: {
