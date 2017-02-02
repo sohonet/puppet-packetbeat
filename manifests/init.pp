@@ -173,7 +173,7 @@ class packetbeat(
   Pattern[/^enabled|disabled|running|unmanaged$/] $service_ensure = 'enabled',
   Boolean $service_has_restart                                    = true,
   Integer $snaplen                                                = 65535,
-  Patterh[/^pcap|af_packet|pf_ring$/] $sniff_type                 = 'pcap',
+  Pattern[/^pcap|af_packet|pf_ring$/] $sniff_type                 = 'pcap',
   Array[String] $tags                                             = [],
   Optional[Boolean] $with_vlans                                   = undef,
 ) {
