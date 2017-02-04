@@ -44,14 +44,14 @@ describe 'packetbeat' , :type => 'class' do
         end
 
         it do
-          if f[:operatingsystem] == 'centos' or f[:operatingsystem] == 'redhat'
+          if f[:os][:family] == 'RedHat'
             should contain_yumrepo('beats').with(
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
               enabled: 1,
               gpgcheck: 1,
               gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
             )
-          elsif f[:operatingsystem] == 'debian'
+          elsif f[:os][:family] == 'Debian'
             should contain_apt__source('beats').with(
               location: 'https://artifacts.elastic.co/packages/5.x/apt',
               release: 'stable',
@@ -89,9 +89,9 @@ describe 'packetbeat' , :type => 'class' do
         it {should contain_class('packetbeat::service')}
 
         it do
-          if f[:operatingsystem] == 'centos' or f[:operatingsystem] == 'redhat'
+          if f[:os][:family] == 'RedHat'
             is_exptected.not_to contain_yumrepo('beats')
-          elsif f[:operatingsystem] == 'debian'
+          elsif f[:os][:family] == 'Debian'
             is_expected.not_to contain_apt__source('beats')
           end
         end
@@ -155,14 +155,14 @@ describe 'packetbeat' , :type => 'class' do
         end
 
         it do
-          if f[:operatingsystem] == 'centos' or f[:operatingsystem] == 'redhat'
+          if f[:os][:family] == 'RedHat'
             should contain_yumrepo('beats').with(
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
               enabled: 1,
               gpgcheck: 1,
               gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
             )
-          elsif f[:operatingsystem] == 'debian'
+          elsif f[:os][:family] == 'Debian'
             should contain_apt__source('beats').with(
               location: 'https://artifacts.elastic.co/packages/5.x/apt',
               release: 'stable',
@@ -208,14 +208,14 @@ describe 'packetbeat' , :type => 'class' do
         it {should contain_class('packetbeat::service')}
 
         it do
-          if f[:operatingsystem] == 'centos' or f[:operatingsystem] == 'redhat'
+          if f[:os][:family] == 'RedHat'
             should contain_yumrepo('beats').with(
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
               enabled: 1,
               gpgcheck: 1,
               gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
             )
-          elsif f[:operatingsystem] == 'debian'
+          elsif f[:os][:family] == 'Debian'
             should contain_apt__source('beats').with(
               location: 'https://artifacts.elastic.co/packages/5.x/apt',
               release: 'stable',
@@ -274,14 +274,14 @@ describe 'packetbeat' , :type => 'class' do
         it {should contain_class('packetbeat::service')}
 
         it do
-          if f[:operatingsystem] == 'centos' or f[:operatingsystem] == 'redhat'
+          if f[:os][:family] == 'RedHat'
             should contain_yumrepo('beats').with(
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
               enabled: 1,
               gpgcheck: 1,
               gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
             )
-          elsif f[:operatingsystem] == 'debian'
+          elsif f[:os][:family] == 'Debian'
             should contain_apt__source('beats').with(
               location: 'https://artifacts.elastic.co/packages/5.x/apt',
               release: 'stable',
@@ -340,14 +340,14 @@ describe 'packetbeat' , :type => 'class' do
         it {should contain_class('packetbeat::service')}
 
         it do
-          if f[:operatingsystem] == 'centos' or f[:operatingsystem] == 'redhat'
+          if f[:os][:family] == 'RedHat'
             should contain_yumrepo('beats').with(
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
               enabled: 1,
               gpgcheck: 1,
               gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
             )
-          elsif f[:operatingsystem] == 'debian'
+          elsif f[:os][:family] == 'Debian'
             should contain_apt__source('beats').with(
               location: 'https://artifacts.elastic.co/packages/5.x/apt',
               release: 'stable',
@@ -406,14 +406,14 @@ describe 'packetbeat' , :type => 'class' do
         it {should contain_class('packetbeat::service')}
 
         it do
-          if f[:operatingsystem] == 'centos' or f[:operatingsystem] == 'redhat'
+          if f[:os][:family] == 'RedHat'
             should contain_yumrepo('beats').with(
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
               enabled: 1,
               gpgcheck: 1,
               gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
             )
-          elsif f[:operatingsystem] == 'debian'
+          elsif f[:os][:family] == 'Debian'
             should contain_apt__source('beats').with(
               location: 'https://artifacts.elastic.co/packages/5.x/apt',
               release: 'stable',
@@ -472,14 +472,14 @@ describe 'packetbeat' , :type => 'class' do
         it {should contain_class('packetbeat::service')}
 
         it do
-          if f[:operatingsystem] == 'centos' or f[:operatingsystem] == 'redhat'
+          if f[:os][:family] == 'RedHat'
             should contain_yumrepo('beats').with(
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
               enabled: 1,
               gpgcheck: 1,
               gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
             )
-          elsif f[:operatingsystem] == 'debian'
+          elsif f[:os][:family] == 'Debian'
             should contain_apt__source('beats').with(
               location: 'https://artifacts.elastic.co/packages/5.x/apt',
               release: 'stable',
@@ -538,14 +538,14 @@ describe 'packetbeat' , :type => 'class' do
         it {should contain_class('packetbeat::service')}
 
         it do
-          if f[:operatingsystem] == 'centos' or f[:operatingsystem] == 'redhat'
+          if f[:os][:family] == 'RedHat'
             should contain_yumrepo('beats').with(
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
               enabled: 1,
               gpgcheck: 1,
               gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
             )
-          elsif f[:operatingsystem] == 'debian'
+          elsif f[:os][:family] == 'Debian'
             should contain_apt__source('beats').with(
               location: 'https://artifacts.elastic.co/packages/5.x/apt',
               release: 'stable',

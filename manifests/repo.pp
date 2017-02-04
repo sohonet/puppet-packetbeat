@@ -1,7 +1,7 @@
 class packetbeat::repo {
 
-  case $facts['operatingsystem'] {
-    'debian': {
+  case $facts['osfamily'] {
+    'Debian': {
       include ::apt
 
       if !defined(Apt::Source['beats']) {
@@ -16,7 +16,7 @@ class packetbeat::repo {
         }
       }
     }
-    'centOS', 'redhat', 'linux': {
+    'Redhat': {
       if !defined(Yumrepo['beats']) {
         yumrepo{'beats':
           descr    => 'Elastic repository for 5.x packages',
@@ -27,7 +27,7 @@ class packetbeat::repo {
         }
       }
     }
-    'suse': {
+    'SuSe': {
       exec { 'topbeat_suse_import_gpg':
         command => 'rpmkeys --import https://artifacts.elastic.co/GPG-KEY-elasticsearch',
         unless  => 'test $(rpm -qa gpg-pubkey | grep -i "D88E42B4" | wc -l) -eq 1 ',
