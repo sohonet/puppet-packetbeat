@@ -6,14 +6,7 @@ class packetbeat::install {
     $package_ensure = $packetbeat::ensure
   }
 
-  case $::kernel {
-    'Linux': {
-      package{'packetbeat':
-        ensure => $package_ensure,
-      }
-    }
-    default: {
-      fail("${::kernel} is not supported by packetbeat")
-    }
+  package{'packetbeat':
+    ensure => $package_ensure,
   }
 }
