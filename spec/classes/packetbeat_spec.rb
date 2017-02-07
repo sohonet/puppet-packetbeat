@@ -139,7 +139,7 @@ describe 'packetbeat' , :type => 'class' do
         it {should contain_class('packetbeat::config')}
         it {should contain_class('packetbeat::install')}
         it {should contain_class('packetbeat::repo')}
-        it {should contain_class('packetbeat::repo')}
+        it {should contain_class('packetbeat::service')}
 
         it do
           should contain_file('packetbeat.yml').with(
