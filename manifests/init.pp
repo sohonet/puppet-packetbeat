@@ -153,7 +153,7 @@ class packetbeat(
   Optional[Integer] $buffer_size_mb                               = undef,
   String $config_file_mode                                        = '0644',
   String $device                                                  = 'any',
-  Hash $fields                                                    = {},
+  Optional[Hash] $fields                                          = undef,
   Boolean $fields_under_root                                      = false,
   Boolean $flow_enable                                            = true,
   String $flow_period                                             = '10s',
@@ -183,7 +183,7 @@ class packetbeat(
   Boolean $service_has_restart                                    = true,
   Integer $snaplen                                                = 65535,
   Pattern[/^pcap|af_packet|pf_ring$/] $sniff_type                 = 'pcap',
-  Array[String] $tags                                             = [],
+  Optional[Array[String]] $tags                                   = undef,
   Optional[Boolean] $with_vlans                                   = undef,
 ) {
   $dir_ensure = $ensure ? {

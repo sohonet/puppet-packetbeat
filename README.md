@@ -136,7 +136,7 @@ Installs and configures packetbeat.
 - `device`: [String] The name of the interface from which to capture traffic.
   (default: 'any')
 - `fields`: [Hash] Optional fields to add any additional information to the output.
-  (default: {})
+  (default: undef)
 - `fields_under_root`: [Boolean] By default custom fields are under a `fields`
   sub-dictionary. When set to true custom fields are added to the root-level
   document. (default: false)
@@ -177,7 +177,7 @@ Installs and configures packetbeat.
   a kernel module and a re-compilation of Packetbeat, not supported by Elastic).
   (default: 'pcap')
 - `tags`: [Array] Optional list of tags to help group different logical properties
-  easily. (default: [])
+  easily. (default: undef)
 - `with_vlans`: [Boolean] If traffic contains VLAN tags all traffic is offset by
   four bits and packetbeat's internal BPF filter is ineffective. Only used if
   `sniff_type` is 'af_packet'. (default: undef)
