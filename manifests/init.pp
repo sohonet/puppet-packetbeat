@@ -199,11 +199,6 @@ class packetbeat(
   Optional[Array[String]] $tags                                   = undef,
   Optional[Boolean] $with_vlans                                   = undef,
 ) {
-  $dir_ensure = $ensure ? {
-    'present' => 'directory',
-    default   => 'absent',
-  }
-
   if $manage_repo {
     class{'packetbeat::repo':}
 
