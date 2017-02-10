@@ -14,70 +14,204 @@
 
 ## Description
 
-Start with a one- or two-sentence summary of what the module does and/or what
-problem it solves. This is your 30-second elevator pitch for your module.
-Consider including OS/Puppet version it works with.
-
-You can give more descriptive information in a second paragraph. This paragraph
-should answer the questions: "What does this module *do*?" and "Why would I use
-it?" If your module has a range of functionality (installation, configuration,
-management, etc.), this is the time to mention it.
+The `packetbeat` module installs the [packetbeat network packet analyzer](https://www.elastic.co/guide/en/beats/packetbeat/current/index.html) maintained by elastic.
 
 ## Setup
 
-### What packetbeat affects **OPTIONAL**
+### What packetbeat affects 
 
-If it's obvious what your module touches, you can skip this section. For
-example, folks can probably figure out that your mysql_instance module affects
-their MySQL instances.
-
-If there's more that they should know about, though, this is the place to mention:
-
-* A list of files, packages, services, or operations that the module will alter,
-  impact, or execute.
-* Dependencies that your module automatically installs.
-* Warnings or other important notices.
+By default `packetbeat` adds a software repository to your system and installs packetbeat
+along with the required configurations.
 
 ### Setup Requirements **OPTIONAL**
 
-If your module requires anything extra before setting up (pluginsync enabled,
-etc.), mention it here.
-
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you might want to include an additional "Upgrading" section
-here.
+The `packetbeat` module depends on [`puppetlabs-stdlib`](https://forge.puppetlabs.com/puppetlabs/stdlib) and
+[`puppetlabs/apt`](https://forge.puppetlabs.com/puppetlabs/apt) on Debian base systems.
 
 ### Beginning with packetbeat
 
-The very basic steps needed for a user to get the module up and running. This
-can include setup steps, if necessary, or it can be an example of the most
-basic use of the module.
+`packetbeat` requires the `protocols` and `outputs` parameters to be declared, without which
+the service does nothing.
 
 ## Usage
 
-This section is where you describe how to customize, configure, and do the
-fancy stuff with your module here. It's especially helpful if you include usage
-examples and code samples for doing things with your module.
+As of this writing all the default values follow the upstream values. This module saves all configuration
+options in a `to_yaml()` fashion, therefore multiple instances of the same protocol are not possible.
+
+To ship HTTP traffic to [elasticsearch](https://www.elastic.co/guide/en/beats/packetbeat/current/elasticsearch-output.html)
+```puppet
+class{'packetbeat':
+  protocols => {
+    'http' => {
+      'ports' => [80]
+    }
+  },
+  outputs   => {
+    'elasticsearch' => {
+      'hosts' => ['localhost:9200']
+    }
+  }
+}
+```
+
+To ship MySQL traffic through [logstash](https://www.elastic.co/guide/en/beats/packetbeat/current/logstash-output.html)
+```puppet
+class{'packetbeat':
+  protocols => {
+    'mysql' => {
+      'ports' => [3306]
+    }
+  },
+  outputs   => {
+    'logstash' => {
+      'hosts' => ['localhost:5044'],
+      'index' => 'packetbeat'
+    }
+  }
+}
+```
+
+[Network device configuation](https://www.elastic.co/guide/en/beats/packetbeat/current/configuration-interfaces.html) and [logging](https://www.elastic.co/guide/en/beats/packetbeat/current/configuration-logging.html) can be configured the same way. Please review the documentation of the [elastic website](https://www.elastic.co/guide/en/beats/packetbeat/current/index.html)
+
+### Processors
+
+Libbeat 5.0 and later include a feature for filtering/enhancing exported data
+called [processors](https://www.elastic.co/guide/en/beats/packetbeat/current/configuration-processors.html).
+These may be added into the configuration by populating the `processors` parameter
+and may apply to all events or those that match certain conditions.
+
+To drop events that have an http response code between 200 and 299
+```puppet
+class{'packetbeat':
+  processors => [
+    'drop_event' => {
+      'when' => {
+        'http.response.code.gte' => 200,
+        'http.response.code.lt'  => 300
+      }
+    }
+  ],
+  ...
+}
+```
+
+To drop the `mysql.num_fields` field from the output
+```puppet
+class{'packetbeat':
+  processors => [
+    'drop_field' => {
+      'fields' => 'mysql.num_fields'
+    }
+  ]
+}
+```
+
+For more information please review the [documentation](https://www.elastic.co/guide/en/beats/packetbeat/current/configuration-processors.html)
 
 ## Reference
+ - [**Public Classes**](#public-classes)
+    - [Class: packetbeat](#class-packetbeat)
 
-Here, include a complete list of your module's classes, types, providers,
-facts, along with the parameters for each. Users refer to this section (thus
-the name "Reference") to find specific details; most users don't read it per
-se.
+### Public Classes
+
+#### Class: `packetbeat`
+
+Installs and configures packetbeat.
+
+**Parameters within `packetbeat`**
+- `outputs`: [Hash] The required outputs section of the configuration.
+- `protocols`: [Hash] The required protocols section of the configuration.
+- `ensure`: [String] Valid values are 'present' and 'absent'. Determines weather
+  to manage all required resources or remove them from the node. (default: 'present')
+- `beat_name`: [String] The name of the beat shipper (default: hostname)
+- `bpf_filter`: [String] Overwrite packetbeat's automatically generated `BPF` with
+  this value. This setting is only available if `type` is configured for
+  'af_packet'. NOTE: It is the responsibility of the user to ensure this is
+  in-sync with the protocols.
+- `buffer_size_mb`: [Integer] The maximum size of the shared memory buffer to
+  use between the kernel and user-space. This setting is only available if `type`
+  is configured for 'af_packet'.
+- `config_file_mode`: [String] The octal permissions to set on configuration files.
+  (default: '0644')
+- `device`: [String] The name of the interface from which to capture traffic.
+  (default: 'any')
+- `fields`: [Hash] Optional fields to add any additional information to the output.
+  (default: {})
+- `fields_under_root`: [Boolean] By default custom fields are under a `fields`
+  sub-dictionary. When set to true custom fields are added to the root-level
+  document. (default: false)
+- `flow_enable`: [Boolean] Enables or disables the bidirectional network flows.
+  (default: true)
+- `flow_period`: [String] Configures the reporting interval where all network
+  flows are reported at the same time. This option takes a number followed by a
+  time unit suffix, 's' representing seconds, 'm' representing minutes and so
+  on. (default: '10s')
+- `flow_timeout`: [String] Configures the lifetime of the flow. Like `flow_period`
+  this option takes a number followed by a time-unit suffix. (default: '30s')
+- `logging`: [Hash] Defines packetbeat's logging configuration, if not explicitly
+  configured all logging output is forwarded to syslog on Linux nodes and file
+  output on Windows. See the [docs](https://www.elastic.co/guide/en/beats/packetbeat/current/configuration-logging.html) for all available options.
+- `manage_repo`: [Boolean] When false does not install the upstream repository
+  to the node's package manager. (default: true)
+- `package_ensure`: [String] The desired state of the Package resources. Only
+  applicable if `ensure` is 'present'. (default: 'present')
+- `path_conf`: [Stdlib::Absolutepath] The base path for all packetbeat
+  configurations. (default: /etc/packetbeat)
+- `path_data`: [Stdlib::Absolutepath] The base path to where packetbeat stores
+  its data. (default: /var/lib/packetbeat)
+- `path_home`: [Stdlib::Absolutepath] The base path for the packetbeat installation,
+  where the packetbeat binary is stored. (default: /usr/share/packetbeat)
+- `path_logs`: [Stdlib::Absolutepath] The base path for packetbeat's log files.
+  (default: /var/log/packetbeat)
+- `queue_size`: [Integer] The queue size for single events in the processing
+  pipeline. (default: 1000)
+- `service_ensure`: [String] Determine the state of the packet beat service. Must
+  be one of 'enabled', 'disabled', 'running', 'unmanaged'. (default: enabled)
+- `service_has_restart`: [Boolean] When true the Service resource issues the
+  'restart' command instead of 'stop' and 'start'. (default: true)
+- `snaplen`: [Integer] The maximum size of the packets to capture. Most
+  environments can accept the default, on a physical interface the optimal value
+  is the MTU size. (default: 65535)
+- `sniff_type`: [String] Configure the sniffer type, packet beat only supports
+  'pcap', 'af_packet' (Linux only, faster than 'pcap') and 'pf_ring' (Requires
+  a kernel module and a re-compilation of Packetbeat, not supported by Elastic).
+  (default: 'pcap')
+- `tags`: [Array] Optional list of tags to help group different logical properties
+  easily. (default: [])
+- `with_vlans`: [Boolean] If traffic contains VLAN tags all traffic is offset by
+  four bits and packetbeat's internal BPF filter is ineffective. Only used if
+  `sniff_type` is 'af_packet'. (default: undef)
+
+### Private Classes
+
+#### Class: `packetbeat::config`
+
+Manages packetbeats main configuration file under `path_conf`
+
+#### Class: `packetbeat::config`
+
+Installs the packetbeat package.
+
+#### Class: `packetbeat::repo`
+
+Installs the upstream Yum or Apt repository for the system package manager.
+
+#### Class: `packetbeat::service`
+
+Manages the packetbeat service.
 
 ## Limitations
 
-This is where you list OS compatibility, version compatibility, etc. If there
-are Known Issues, you might want to include them under their own heading here.
+This module does not support loading [kibana dashboards](https://www.elastic.co/guide/en/beats/packetbeat/current/packetbeat-sample-dashboards.html)
+or [elasticsearch templates](https://www.elastic.co/guide/en/beats/packetbeat/current/packetbeat-template.html), used when outputting
+to Elasticsearch.
+
+### Major Versions
+
+This module was written for packetbeat versions 5.0 and greater. There is no
+supported for 1.x versions.
 
 ## Development
 
-Since your module is awesome, other users will want to play with it. Let them
-know what the ground rules for contributing are.
-
-## Release Notes/Contributors/Etc. **Optional**
-
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You can also add any additional sections you feel
-are necessary or important to include here. Please use the `## ` header.
+Pull requests and bug reports are welcome. If you're sending a pull request,
+please consider writing tests if applicable.

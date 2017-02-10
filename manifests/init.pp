@@ -129,7 +129,16 @@
 #
 # @example
 #    class { 'packetbeat':
-#      servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
+#      protocols => {
+#        'icmp' => {
+#          'enabled' => true
+#        }
+#      },
+#      outputs   => {
+#        'elasticsearch' => {
+#          'hosts' => ['localhost:9200']
+#        }
+#      }
 #    }
 #
 #
