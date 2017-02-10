@@ -84,10 +84,12 @@ To drop events that have an http response code between 200 and 299
 ```puppet
 class{'packetbeat':
   processors => [
-    'drop_event' => {
-      'when' => {
-        'http.response.code.gte' => 200,
-        'http.response.code.lt'  => 300
+    {
+      'drop_event' => {
+        'when' => {
+          'http.response.code.gte' => 200,
+          'http.response.code.lt'  => 300
+        }
       }
     }
   ],
@@ -99,8 +101,10 @@ To drop the `mysql.num_fields` field from the output
 ```puppet
 class{'packetbeat':
   processors => [
-    'drop_field' => {
-      'fields' => 'mysql.num_fields'
+    {
+      'drop_field' => {
+        'fields' => 'mysql.num_fields'
+      }
     }
   ]
 }
@@ -163,6 +167,8 @@ Installs and configures packetbeat.
   where the packetbeat binary is stored. (default: /usr/share/packetbeat)
 - `path_logs`: [Stdlib::Absolutepath] The base path for packetbeat's log files.
   (default: /var/log/packetbeat)
+- `processors`: [Array[Hash]] Add processors to the configuration to run on data
+  before sending to the output. (default: undef)
 - `queue_size`: [Integer] The queue size for single events in the processing
   pipeline. (default: 1000)
 - `service_ensure`: [String] Determine the state of the packet beat service. Must

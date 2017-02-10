@@ -12,6 +12,7 @@ class packetbeat::config {
     },
     'queue_size'        => $packetbeat::queue_size,
     'tags'              => $packetbeat::tags,
+    'processors'        => $packetbeat::processors,
     'packetbeat'        => {
       'interfaces' => {
         'device'  => $packetbeat::device,

@@ -35,7 +35,7 @@
 # traffic. (default: 'any')
 #
 # * `fields`
-# [Any] Optional fields to add additional information to the output.
+# Optional[Hash] Optional fields to add additional information to the output.
 # (default: undef)
 #
 # * `fields_under_root`
@@ -81,6 +81,11 @@
 # * `path_logs`
 # [Absolute Path] The location of the logs created by Packetbeat.
 #
+# * `processors`
+# Optional[Array[Hash]] Configure processors to perform filtering, 
+# enhancing or additional decoding of data before being sent to the
+# output.
+#
 # * `queue_size`
 # [Number] The internal queue size for single events in the processing
 # pipeline. (default: 1000)
@@ -102,7 +107,7 @@
 # af_packet and pf_ring. (default: 'pcap')
 #
 # * `tags`
-# [Array] A list of values to include in the `tags` field in each published
+# Optional[Array] A list of values to include in the `tags` field in each published
 # message, making it easier to group servers by logical property.
 # (default: [])
 #
@@ -129,6 +134,13 @@
 #
 # @example
 #    class { 'packetbeat':
+#      processors => [
+#        {
+#          'drop_fields' => {
+#            'fields' => ['field1', 'field2']
+#          }
+#        }
+#      ],
 #      protocols => {
 #        'icmp' => {
 #          'enabled' => true
@@ -178,6 +190,7 @@ class packetbeat(
   Stdlib::Absolutepath $path_data                                 = '/var/lib/packetbeat',
   Stdlib::Absolutepath $path_home                                 = '/usr/share/packetbeat',
   Stdlib::Absolutepath $path_logs                                 = '/var/log/packetbeat',
+  Optional[Array[Hash]] $processors                               = undef,
   Integer $queue_size                                             = 1000,
   Pattern[/^enabled|disabled|running|unmanaged$/] $service_ensure = 'enabled',
   Boolean $service_has_restart                                    = true,
