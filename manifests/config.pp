@@ -28,6 +28,20 @@ class packetbeat::config {
     }
   })
 
+  if $packetbeat::sniff_type == 'af_packet' {
+    $af_packet_config = delete_undef_values({
+      'packetbeat' => {
+        'interfaces' => {
+          'buffer_size_mb' => $packetbeat::buffer_size_mb,
+          'with_vlans'     => $packetbeat::with_vlans,
+          'bpf_filter'     => $packetbeat::bpf_filter,
+        }
+      }
+    })
+
+    $packetbeat_config = merge($packetbeat_config, $af_packet_config)
+  }
+
   file{'packetbeat.yml':
     ensure       => $packetbeat::ensure,
     path         => "${packetbeat::path_conf}/packetbeat.yml",
