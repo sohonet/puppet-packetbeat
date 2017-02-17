@@ -26,7 +26,7 @@ class packetbeat::config {
       },
       'output'     => $packetbeat::outputs,
       'protocols'  => $packetbeat::protocols,
-    }
+    },
   })
 
   if $packetbeat::sniff_type == 'af_packet' {
@@ -36,8 +36,8 @@ class packetbeat::config {
           'buffer_size_mb' => $packetbeat::buffer_size_mb,
           'with_vlans'     => $packetbeat::with_vlans,
           'bpf_filter'     => $packetbeat::bpf_filter,
-        }
-      }
+        },
+      },
     })
 
     $packetbeat_config = merge($packetbeat_config, $af_packet_config)

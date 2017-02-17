@@ -175,14 +175,14 @@ class packetbeat(
     'level'    => 'info',
     'metrics'  => {
       'enabled' => true,
-      'period'  => '30s'
+      'period'  => '30s',
     },
     'files'    => {
       'name'             => 'packetbeat',
       'keepfiles'        => 7,
       'path'             => '/var/log/packetbeat',
       'rotateeverybytes' => 10485760,
-    }
+    },
   },
   Boolean $manage_repo                                            = true,
   String $package_ensure                                          = 'present',
@@ -200,7 +200,7 @@ class packetbeat(
   Optional[Boolean] $with_vlans                                   = undef,
 ) {
   if $manage_repo {
-    class{'packetbeat::repo':}
+    class{'::packetbeat::repo':}
 
     Anchor['packetbeat::begin']
     -> Class['packetbeat::repo']
@@ -222,7 +222,7 @@ class packetbeat(
   }
 
   anchor{'packetbeat::begin':}
-  class{'packetbeat::config':}
-  class{'packetbeat::install':}
-  class{'packetbeat::service':}
+  class{'::packetbeat::config':}
+  class{'::packetbeat::install':}
+  class{'::packetbeat::service':}
 }
