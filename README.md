@@ -8,7 +8,10 @@
     * [Setup requirements](#setup-requirements)
     * [Beginning with packetbeat](#beginning-with-packetbeat)
 1. [Usage - Configuration options and additional functionality](#usage)
+    * [Processors](#processors)
 1. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
+    * [Public Classes](#public-classes)
+    * [Private Classes](#private-classes)
 1. [Limitations - OS compatibility, etc.](#limitations)
 1. [Development - Guide for contributing to the module](#development)
 
@@ -221,3 +224,18 @@ supported for 1.x versions.
 
 Pull requests and bug reports are welcome. If you're sending a pull request,
 please consider writing tests if applicable.
+
+### Testing
+
+In the root of your checkout directory execute the following commands to setup
+and perform automatic testing of new code submissions.
+
+1. Installs all Ruby Gems
+```
+bundle install
+```
+
+2. Perform tests
+```
+bundle exec rake validate test rubocop
+```
