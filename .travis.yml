@@ -8,4 +8,4 @@ rvm:
   - 2.1.9
   - 2.2.5
 script:
-  - "bundle exec rake validate test SPEC_OPTS='--format documentation'"
+  - "bundle exec rake validate test rubocop SPEC_OPTS='--format documentation'"
