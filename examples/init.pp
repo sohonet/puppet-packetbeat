@@ -9,7 +9,7 @@
 # Learn more about module testing here:
 # https://docs.puppet.com/guides/tests_smoke.html
 #
-class{'packetbeat':
+class{'::packetbeat':
   outputs    => {
     'elasticsearch' => {
       'hosts'            => ['elasticsearch01:9200'],
@@ -27,7 +27,7 @@ class{'packetbeat':
     },
     'redis'         => {
       'hosts' => ['redis01:6379'],
-      'key'   => '%{[fields.list]:fallback}'
+      'key'   => '%{[fields.list]:fallback}',
     },
   },
   protocols  => {
@@ -43,10 +43,10 @@ class{'packetbeat':
     'dns'       => {
       'include_additionals' => true,
       'include_authorities' => true,
-      'ports'               => [53]
+      'ports'               => [53],
     },
     'http'      => {
-      'hide_keywords'  => ['pass', 'passwd', 'password']
+      'hide_keywords'  => ['pass', 'passwd', 'password'],
       'ports'          => [80, 8080],
       'real_ip_header' => 'X-Forwarded-For',
     },
@@ -87,7 +87,7 @@ class{'packetbeat':
             'gte' => 200,
             'lt'  => 300,
           },
-        }
+        },
       }
     },
     {
