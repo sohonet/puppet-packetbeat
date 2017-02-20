@@ -1,4 +1,5 @@
 class packetbeat::repo {
+  assert_private()
 
   case $facts['osfamily'] {
     'Debian': {

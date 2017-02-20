@@ -1,4 +1,6 @@
 class packetbeat::config {
+  assert_private()
+
   $packetbeat_config = delete_undef_values({
     'name'              => $packetbeat::beat_name,
     'fields'            => $packetbeat::fields,

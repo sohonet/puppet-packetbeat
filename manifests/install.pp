@@ -1,4 +1,6 @@
 class packetbeat::install {
+  assert_private()
+
   if $packetbeat::ensure == 'present' {
     $package_ensure = $packetbeat::package_ensure
   }

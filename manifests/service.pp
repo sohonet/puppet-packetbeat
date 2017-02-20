@@ -1,4 +1,6 @@
 class packetbeat::service {
+  assert_private()
+
   if $packetbeat::ensure == 'present' {
     case $packetbeat::service_ensure {
       'enabled': {
