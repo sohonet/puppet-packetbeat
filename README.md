@@ -5,7 +5,6 @@
 1. [Description](#description)
 1. [Setup - The basics of getting started with packetbeat](#setup)
     * [What packetbeat affects](#what-packetbeat-affects)
-    * [Setup requirements](#setup-requirements)
     * [Beginning with packetbeat](#beginning-with-packetbeat)
 1. [Usage - Configuration options and additional functionality](#usage)
     * [Processors](#processors)
@@ -13,7 +12,9 @@
     * [Public Classes](#public-classes)
     * [Private Classes](#private-classes)
 1. [Limitations - OS compatibility, etc.](#limitations)
+    * [Major Versions](#major-versions)
 1. [Development - Guide for contributing to the module](#development)
+    * [Testing](#testing)
 
 ## Description
 
@@ -26,15 +27,25 @@ The `packetbeat` module installs the [packetbeat network packet analyzer](https:
 By default `packetbeat` adds a software repository to your system and installs packetbeat
 along with the required configurations.
 
-### Setup Requirements **OPTIONAL**
-
-The `packetbeat` module depends on [`puppetlabs-stdlib`](https://forge.puppetlabs.com/puppetlabs/stdlib) and
-[`puppetlabs/apt`](https://forge.puppetlabs.com/puppetlabs/apt) on Debian base systems.
-
 ### Beginning with packetbeat
 
 `packetbeat` requires the `protocols` and `outputs` parameters to be declared, without which
 the service does nothing.
+
+```puppet
+class{'packetbeat':
+  protocols => {
+    'icmp' => {
+      'enabled' => true,
+    },
+  },
+  outputs   => {
+    'elasticsearch' => {
+      'hosts' => ['localhost:9200'],
+    },
+  }
+}
+```
 
 ## Usage
 
@@ -118,6 +129,11 @@ For more information please review the [documentation](https://www.elastic.co/gu
 ## Reference
  - [**Public Classes**](#public-classes)
     - [Class: packetbeat](#class-packetbeat)
+ - [**Private Classes**](#private-classes)
+    - [Class: packetbeat::config](#class-packetbeatconfig)
+    - [Class: packetbeat::install](#class-packetbeatinstall)
+    - [Class: packetbeat::repo](#class-packetbeatrepo)
+    - [Class: packetbeat::service](#class-packetbeatservice)
 
 ### Public Classes
 
@@ -197,7 +213,7 @@ Installs and configures packetbeat.
 
 Manages packetbeats main configuration file under `path_conf`
 
-#### Class: `packetbeat::config`
+#### Class: `packetbeat::install`
 
 Installs the packetbeat package.
 
@@ -234,8 +250,7 @@ and perform automatic testing of new code submissions.
 ```
 bundle install
 ```
-
-2. Perform tests
+1. Perform tests
 ```
 bundle exec rake validate test rubocop
 ```
