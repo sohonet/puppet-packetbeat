@@ -9,9 +9,7 @@ describe 'packetbeat_version' do
       Facter.fact(:kernel).stubs(:value).returns('Linux')
       Facter::Util::Resolution.stubs(:exec).with(
         '/usr/share/packetbeat/bin/packetbeat -version'
-      ).returns(
-        'packetbeat version 5.2.0 (amd64), libbeat 5.2.0'
-      )
+      ).returns('packetbeat version 5.2.0 (amd64), libbeat 5.2.0')
     end
 
     it do
