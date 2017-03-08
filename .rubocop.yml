@@ -11,10 +11,49 @@ AllCops:
 Metrics/BlockLength:
   Enabled: False
 
+Style/AutoResourceCleanup:
+  Enabled: True
+
 Style/CollectionMethods:
   Enabled: True
 
+Style/DocumentationMethod:
+  Enabled: True
+
+Style/FirstArrayElementLineBreak:
+  Enabled: True
+
+Style/FirstHashElementLineBreak:
+  Enabled: True
+
+Style/FirstMethodArgumentLineBreak:
+  Enabled: True
+
+Style/FirstMethodParameterLineBreak:
+  Enabled: True
+
+Style/ImplicitRuntimeError:
+  Enabled: True
+
+Style/MethodCalledOnDoEndBlock:
+  Enabled: True
+
+Style/MultilineAssignmentLayout:
+  Enabled: True
+
+Style/OptionHash:
+  Enabled: True
+
+Style/Send:
+  Enabled: True
+
 Style/SingleLineBlockParams:
+  Enabled: True
+
+Style/StringMethods:
+  Enabled: True
+
+Style/SymbolArray:
   Enabled: True
 
 Style/Encoding:
