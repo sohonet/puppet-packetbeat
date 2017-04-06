@@ -7,9 +7,13 @@ if RUBY_VERSION >= '1.9'
   RuboCop::RakeTask.new
 end
 
-PuppetLint.configuration.send('disable_80chars')
+PuppetLint.configuration.public_send('disable_80chars')
 PuppetLint.configuration.relative = true
-PuppetLint.configuration.ignore_paths = ['spec/**/*.pp', 'pkg/**/*.pp', 'vendor/**/*.pp']
+PuppetLint.configuration.ignore_paths = [
+  'spec/**/*.pp',
+  'pkg/**/*.pp',
+  'vendor/**/*.pp'
+]
 
 desc 'Validate manifests, templates, and ruby files'
 task :validate do
@@ -26,7 +30,7 @@ end
 
 desc 'Run metadata_lint, lint, validate, rubocop, and spec tests.'
 task :test do
-  [:metadata_lint, :lint, :validate, :spec, :rubocop].each do |test|
+  %i[metadata_lint lint validate spec rubocop].each do |test|
     Rake::Task[test].invoke
   end
 end

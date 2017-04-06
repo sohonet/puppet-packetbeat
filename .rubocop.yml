@@ -20,6 +20,11 @@ Style/CollectionMethods:
 Style/DocumentationMethod:
   Enabled: True
 
+Style/FileName:
+  Exclude:
+    - Rakefile
+    - Gemfile
+
 Style/FirstArrayElementLineBreak:
   Enabled: True
 
