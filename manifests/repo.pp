@@ -1,7 +1,7 @@
 class packetbeat::repo {
   assert_private()
 
-  case $facts['osfamily'] {
+  case $::osfamily {
     'Debian': {
       include ::apt
 
