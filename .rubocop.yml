@@ -25,16 +25,16 @@ Style/FileName:
     - Rakefile
     - Gemfile
 
-Style/FirstArrayElementLineBreak:
+Layout/FirstArrayElementLineBreak:
   Enabled: True
 
-Style/FirstHashElementLineBreak:
+Layout/FirstHashElementLineBreak:
   Enabled: True
 
-Style/FirstMethodArgumentLineBreak:
+Layout/FirstMethodArgumentLineBreak:
   Enabled: True
 
-Style/FirstMethodParameterLineBreak:
+Layout/FirstMethodParameterLineBreak:
   Enabled: True
 
 Style/ImplicitRuntimeError:
@@ -43,7 +43,7 @@ Style/ImplicitRuntimeError:
 Style/MethodCalledOnDoEndBlock:
   Enabled: True
 
-Style/MultilineAssignmentLayout:
+Layout/MultilineAssignmentLayout:
   Enabled: True
 
 Style/OptionHash:
