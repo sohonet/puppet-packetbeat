@@ -1,6 +1,10 @@
 class packetbeat::config {
   assert_private()
 
+  $validate_cmd      = $packetbeat::disable_config_test ? {
+    true    => undef,
+    default => "${packetbeat::path_home}/bin/packetbeat -N -configtest -c %",
+  }
   $packetbeat_config = delete_undef_values({
     'name'              => $packetbeat::beat_name,
     'fields'            => $packetbeat::fields,
@@ -52,6 +56,6 @@ class packetbeat::config {
     group        => 'root',
     mode         => $packetbeat::config_file_mode,
     content      => inline_template("### Packetbeat configuration managed by Puppet ###\n\n<%= @packetbeat_config.to_yaml() %>"),
-    validate_cmd => "${packetbeat::path_home}/bin/packetbeat -N -configtest -e %",
+    validate_cmd => $validate_cmd,
   }
 }
