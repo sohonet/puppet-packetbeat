@@ -583,6 +583,75 @@ describe 'packetbeat', type: 'class' do
         end
       end
 
+      context 'with disable_config_test = true' do
+        let :params do
+          {
+            disable_config_test: true,
+            outputs:             {
+              'elasticsearch' => {
+                'hosts' => ['http://localhost:9200']
+              }
+            },
+            protocols:           {
+              'icmp' => {
+                'enabled' => true
+              }
+            }
+          }
+        end
+
+        it { is_expected.to compile.with_all_deps }
+        it { is_expected.to contain_class('packetbeat::config') }
+        it { is_expected.to contain_class('packetbeat::install') }
+        it { is_expected.to contain_class('packetbeat::repo') }
+        it { is_expected.to contain_class('packetbeat::service') }
+
+        it do
+          is_expected.to contain_file('packetbeat.yml').with(
+            path:         '/etc/packetbeat/packetbeat.yml',
+            mode:         '0644',
+            validate_cmd: nil
+          )
+        end
+
+        it do
+          is_expected.to contain_package('packetbeat').with(
+            ensure: 'present'
+          )
+        end
+
+        it do
+          if f[:os][:family] == 'RedHat'
+            is_expected.to contain_yumrepo('beats').with(
+              baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
+              enabled: 1,
+              gpgcheck: 1,
+              gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
+            )
+          elsif f[:os][:family] == 'Debian'
+            is_expected.to contain_apt__source('beats').with(
+              location: 'https://artifacts.elastic.co/packages/5.x/apt',
+              release: 'stable',
+              repos: 'main',
+              key: {
+                id: '46095ACC8548582C1A2699A9D27D666CD88E42B4',
+                source: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
+              }
+            )
+          elsif f[:os][:family] == 'SuSe'
+            is_expected.to contain_zypprepo('beats').with(
+              baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
+              autorefresh: 1,
+              enabled: 1,
+              gpgcheck: 1,
+              gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
+              name: 'beats',
+              type: 'yum'
+            )
+          end
+        end
+      end
+
       context 'with ensure = absent' do
         let :params do
           {

@@ -34,6 +34,10 @@
 # [String] The name of the interface device from which to capture the 
 # traffic. (default: 'any')
 #
+# * `disable_config_test`
+# [Boolean] If true, disable configuration file testing. It is generally
+# recommended to leave this parameter at this default value. (default: false)
+#
 # * `fields`
 # Optional[Hash] Optional fields to add additional information to the output.
 # (default: undef)
@@ -165,6 +169,7 @@ class packetbeat(
   Optional[Integer] $buffer_size_mb                                   = undef,
   String $config_file_mode                                            = '0644',
   String $device                                                      = 'any',
+  Boolean $disable_config_test                                        = false,
   Optional[Hash] $fields                                              = undef,
   Boolean $fields_under_root                                          = false,
   Boolean $flow_enable                                                = true,

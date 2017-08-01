@@ -158,6 +158,9 @@ Installs and configures packetbeat.
   (default: '0644')
 - `device`: [String] The name of the interface from which to capture traffic.
   (default: 'any')
+- `disable_config_test`: [Boolean] If true, disable configuration file testing. It
+   is generally recommended to leave this parameter at this default value.
+   (default: false)
 - `fields`: [Hash] Optional fields to add any additional information to the output.
   (default: undef)
 - `fields_under_root`: [Boolean] By default custom fields are under a `fields`
