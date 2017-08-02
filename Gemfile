@@ -21,6 +21,7 @@ gem 'rspec-puppet', require: false
 gem 'rspec-puppet-facts', require: false
 gem 'rspec-puppet-utils', require: false
 gem 'rubocop-rspec', require: false
+gem 'semantic_puppet', require: false
 gem 'voxpupuli-release', require: false, git: 'https://github.com/voxpupuli/voxpupuli-release-gem.git'
 
 # rspec must be v2 for ruby 1.8.7
