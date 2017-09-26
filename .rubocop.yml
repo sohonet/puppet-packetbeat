@@ -20,7 +20,7 @@ Style/CollectionMethods:
 Style/DocumentationMethod:
   Enabled: True
 
-Style/FileName:
+Naming/FileName:
   Exclude:
     - Rakefile
     - Gemfile
