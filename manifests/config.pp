@@ -30,9 +30,9 @@ class packetbeat::config {
         'period'  => $packetbeat::flow_period,
         'timeout' => $packetbeat::flow_timeout,
       },
-      'output'     => $packetbeat::outputs,
       'protocols'  => $packetbeat::protocols,
     },
+    'output'     => $packetbeat::outputs,
   })
 
   if $packetbeat::sniff_type == 'af_packet' {
