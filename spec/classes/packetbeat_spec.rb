@@ -11,14 +11,14 @@ describe 'packetbeat', type: 'class' do
           {
             outputs:   {
               'elasticsearch' => {
-                'hosts' => ['http://localhost:9200']
-              }
+                'hosts' => ['http://localhost:9200'],
+              },
             },
             protocols: {
               'icmp' => {
-                'enabled' => true
-              }
-            }
+                'enabled' => true,
+              },
+            },
           }
         end
 
@@ -31,13 +31,13 @@ describe 'packetbeat', type: 'class' do
         it do
           is_expected.to contain_file('packetbeat.yml').with(
             path: '/etc/packetbeat/packetbeat.yml',
-            mode: '0644'
+            mode: '0644',
           )
         end
 
         it do
           is_expected.to contain_package('packetbeat').with(
-            ensure: 'present'
+            ensure: 'present',
           )
         end
 
@@ -47,7 +47,7 @@ describe 'packetbeat', type: 'class' do
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
               enabled: 1,
               gpgcheck: 1,
-              gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
+              gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
             )
           end
         elsif f[:os][:family] == 'Debian'
@@ -58,8 +58,8 @@ describe 'packetbeat', type: 'class' do
               repos: 'main',
               key: {
                 id: '46095ACC8548582C1A2699A9D27D666CD88E42B4',
-                source: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
-              }
+                source: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
+              },
             )
           end
         elsif f[:os][:family] == 'SuSe'
@@ -71,7 +71,7 @@ describe 'packetbeat', type: 'class' do
               gpgcheck: 1,
               gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
               name: 'beats',
-              type: 'yum'
+              type: 'yum',
             )
           end
         end
@@ -83,14 +83,14 @@ describe 'packetbeat', type: 'class' do
             manage_repo: false,
             outputs:     {
               'elasticsearch' => {
-                'hosts' => ['http://localhost:9200']
-              }
+                'hosts' => ['http://localhost:9200'],
+              },
             },
             protocols:   {
               'icmp' => {
-                'enabled' => true
-              }
-            }
+                'enabled' => true,
+              },
+            },
           }
         end
 
@@ -110,13 +110,13 @@ describe 'packetbeat', type: 'class' do
         it do
           is_expected.to contain_file('packetbeat.yml').with(
             path: '/etc/packetbeat/packetbeat.yml',
-            mode: '0644'
+            mode: '0644',
           )
         end
 
         it do
           is_expected.to contain_package('packetbeat').with(
-            ensure: 'present'
+            ensure: 'present',
           )
         end
 
@@ -124,7 +124,7 @@ describe 'packetbeat', type: 'class' do
           is_expected.to contain_service('packetbeat').with(
             ensure: 'running',
             enable: true,
-            hasrestart: true
+            hasrestart: true,
           )
         end
       end
@@ -134,15 +134,15 @@ describe 'packetbeat', type: 'class' do
           {
             outputs:        {
               'elasticsearch' => {
-                'hosts' => ['http://localhost:9200']
-              }
+                'hosts' => ['http://localhost:9200'],
+              },
             },
             protocols:      {
               'icmp' => {
-                'enabled' => true
-              }
+                'enabled' => true,
+              },
             },
-            service_ensure: 'disabled'
+            service_ensure: 'disabled',
           }
         end
 
@@ -155,13 +155,13 @@ describe 'packetbeat', type: 'class' do
         it do
           is_expected.to contain_file('packetbeat.yml').with(
             path: '/etc/packetbeat/packetbeat.yml',
-            mode: '0644'
+            mode: '0644',
           )
         end
 
         it do
           is_expected.to contain_package('packetbeat').with(
-            ensure: 'present'
+            ensure: 'present',
           )
         end
 
@@ -171,7 +171,7 @@ describe 'packetbeat', type: 'class' do
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
               enabled: 1,
               gpgcheck: 1,
-              gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
+              gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
             )
           end
         elsif f[:os][:family] == 'Debian'
@@ -182,8 +182,8 @@ describe 'packetbeat', type: 'class' do
               repos: 'main',
               key: {
                 id: '46095ACC8548582C1A2699A9D27D666CD88E42B4',
-                source: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
-              }
+                source: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
+              },
             )
           end
         elsif f[:os][:family] == 'SuSe'
@@ -195,7 +195,7 @@ describe 'packetbeat', type: 'class' do
               gpgcheck: 1,
               gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
               name: 'beats',
-              type: 'yum'
+              type: 'yum',
             )
           end
         end
@@ -204,7 +204,7 @@ describe 'packetbeat', type: 'class' do
           is_expected.to contain_service('packetbeat').with(
             ensure: 'stopped',
             enable: false,
-            hasrestart: true
+            hasrestart: true,
           )
         end
       end
@@ -214,15 +214,15 @@ describe 'packetbeat', type: 'class' do
           {
             outputs:        {
               'elasticsearch' => {
-                'hosts' => ['http://localhost:9200']
-              }
+                'hosts' => ['http://localhost:9200'],
+              },
             },
             protocols:      {
               'icmp' => {
-                'enabled' => true
-              }
+                'enabled' => true,
+              },
             },
-            service_ensure: 'running'
+            service_ensure: 'running',
           }
         end
 
@@ -238,7 +238,7 @@ describe 'packetbeat', type: 'class' do
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
               enabled: 1,
               gpgcheck: 1,
-              gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
+              gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
             )
           end
         elsif f[:os][:family] == 'Debian'
@@ -249,8 +249,8 @@ describe 'packetbeat', type: 'class' do
               repos: 'main',
               key: {
                 id: '46095ACC8548582C1A2699A9D27D666CD88E42B4',
-                source: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
-              }
+                source: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
+              },
             )
           end
         elsif f[:os][:family] == 'SuSe'
@@ -262,21 +262,21 @@ describe 'packetbeat', type: 'class' do
               gpgcheck: 1,
               gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
               name: 'beats',
-              type: 'yum'
+              type: 'yum',
             )
           end
         end
 
         it do
           is_expected.to contain_package('packetbeat').with(
-            ensure: 'present'
+            ensure: 'present',
           )
         end
 
         it do
           is_expected.to contain_file('packetbeat.yml').with(
             path: '/etc/packetbeat/packetbeat.yml',
-            mode: '0644'
+            mode: '0644',
           )
         end
 
@@ -284,7 +284,7 @@ describe 'packetbeat', type: 'class' do
           is_expected.to contain_service('packetbeat').with(
             ensure: 'running',
             enable: false,
-            hasrestart: true
+            hasrestart: true,
           )
         end
       end
@@ -294,15 +294,15 @@ describe 'packetbeat', type: 'class' do
           {
             outputs:        {
               'elasticsearch' => {
-                'hosts' => ['http://localhost:9200']
-              }
+                'hosts' => ['http://localhost:9200'],
+              },
             },
             protocols:      {
               'icmp' => {
-                'enabled' => true
-              }
+                'enabled' => true,
+              },
             },
-            service_ensure: 'running'
+            service_ensure: 'running',
           }
         end
 
@@ -318,7 +318,7 @@ describe 'packetbeat', type: 'class' do
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
               enabled: 1,
               gpgcheck: 1,
-              gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
+              gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
             )
           end
         elsif f[:os][:family] == 'Debian'
@@ -329,8 +329,8 @@ describe 'packetbeat', type: 'class' do
               repos: 'main',
               key: {
                 id: '46095ACC8548582C1A2699A9D27D666CD88E42B4',
-                source: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
-              }
+                source: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
+              },
             )
           end
         elsif f[:os][:family] == 'SuSe'
@@ -342,21 +342,21 @@ describe 'packetbeat', type: 'class' do
               gpgcheck: 1,
               gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
               name: 'beats',
-              type: 'yum'
+              type: 'yum',
             )
           end
         end
 
         it do
           is_expected.to contain_package('packetbeat').with(
-            ensure: 'present'
+            ensure: 'present',
           )
         end
 
         it do
           is_expected.to contain_file('packetbeat.yml').with(
             path: '/etc/packetbeat/packetbeat.yml',
-            mode: '0644'
+            mode: '0644',
           )
         end
 
@@ -364,7 +364,7 @@ describe 'packetbeat', type: 'class' do
           is_expected.to contain_service('packetbeat').with(
             ensure: 'running',
             enable: false,
-            hasrestart: true
+            hasrestart: true,
           )
         end
       end
@@ -374,15 +374,15 @@ describe 'packetbeat', type: 'class' do
           {
             outputs:        {
               'elasticsearch' => {
-                'hosts' => ['http://localhost:9200']
-              }
+                'hosts' => ['http://localhost:9200'],
+              },
             },
             protocols:      {
               'icmp' => {
-                'enabled' => true
-              }
+                'enabled' => true,
+              },
             },
-            service_ensure: 'unmanaged'
+            service_ensure: 'unmanaged',
           }
         end
 
@@ -398,7 +398,7 @@ describe 'packetbeat', type: 'class' do
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
               enabled: 1,
               gpgcheck: 1,
-              gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
+              gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
             )
           end
         elsif f[:os][:family] == 'Debian'
@@ -409,8 +409,8 @@ describe 'packetbeat', type: 'class' do
               repos: 'main',
               key: {
                 id: '46095ACC8548582C1A2699A9D27D666CD88E42B4',
-                source: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
-              }
+                source: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
+              },
             )
           end
         elsif f[:os][:family] == 'SuSe'
@@ -422,21 +422,21 @@ describe 'packetbeat', type: 'class' do
               gpgcheck: 1,
               gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
               name: 'beats',
-              type: 'yum'
+              type: 'yum',
             )
           end
         end
 
         it do
           is_expected.to contain_package('packetbeat').with(
-            ensure: 'present'
+            ensure: 'present',
           )
         end
 
         it do
           is_expected.to contain_file('packetbeat.yml').with(
             path: '/etc/packetbeat/packetbeat.yml',
-            mode: '0644'
+            mode: '0644',
           )
         end
 
@@ -444,7 +444,7 @@ describe 'packetbeat', type: 'class' do
           is_expected.to contain_service('packetbeat').with(
             ensure: nil,
             enable: false,
-            hasrestart: true
+            hasrestart: true,
           )
         end
       end
@@ -454,15 +454,15 @@ describe 'packetbeat', type: 'class' do
           {
             outputs:             {
               'elasticsearch' => {
-                'hosts' => ['http://localhost:9200']
-              }
+                'hosts' => ['http://localhost:9200'],
+              },
             },
             protocols:           {
               'icmp' => {
-                'enabled' => true
-              }
+                'enabled' => true,
+              },
             },
-            service_has_restart: false
+            service_has_restart: false,
           }
         end
 
@@ -478,7 +478,7 @@ describe 'packetbeat', type: 'class' do
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
               enabled: 1,
               gpgcheck: 1,
-              gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
+              gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
             )
           end
         elsif f[:os][:family] == 'Debian'
@@ -489,8 +489,8 @@ describe 'packetbeat', type: 'class' do
               repos: 'main',
               key: {
                 id: '46095ACC8548582C1A2699A9D27D666CD88E42B4',
-                source: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
-              }
+                source: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
+              },
             )
           end
         elsif f[:os][:family] == 'SuSe'
@@ -502,21 +502,21 @@ describe 'packetbeat', type: 'class' do
               gpgcheck: 1,
               gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
               name: 'beats',
-              type: 'yum'
+              type: 'yum',
             )
           end
         end
 
         it do
           is_expected.to contain_package('packetbeat').with(
-            ensure: 'present'
+            ensure: 'present',
           )
         end
 
         it do
           is_expected.to contain_file('packetbeat.yml').with(
             path: '/etc/packetbeat/packetbeat.yml',
-            mode: '0644'
+            mode: '0644',
           )
         end
 
@@ -524,7 +524,7 @@ describe 'packetbeat', type: 'class' do
           is_expected.to contain_service('packetbeat').with(
             ensure: 'running',
             enable: true,
-            hasrestart: false
+            hasrestart: false,
           )
         end
       end
@@ -535,14 +535,14 @@ describe 'packetbeat', type: 'class' do
             config_file_mode: '0440',
             outputs:          {
               'elasticsearch' => {
-                'hosts' => ['http://localhost:9200']
-              }
+                'hosts' => ['http://localhost:9200'],
+              },
             },
             protocols:        {
               'icmp' => {
-                'enabled' => true
-              }
-            }
+                'enabled' => true,
+              },
+            },
           }
         end
 
@@ -558,7 +558,7 @@ describe 'packetbeat', type: 'class' do
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
               enabled: 1,
               gpgcheck: 1,
-              gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
+              gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
             )
           end
         elsif f[:os][:family] == 'Debian'
@@ -569,8 +569,8 @@ describe 'packetbeat', type: 'class' do
               repos: 'main',
               key: {
                 id: '46095ACC8548582C1A2699A9D27D666CD88E42B4',
-                source: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
-              }
+                source: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
+              },
             )
           end
         elsif f[:os][:family] == 'SuSe'
@@ -582,21 +582,21 @@ describe 'packetbeat', type: 'class' do
               gpgcheck: 1,
               gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
               name: 'beats',
-              type: 'yum'
+              type: 'yum',
             )
           end
         end
 
         it do
           is_expected.to contain_package('packetbeat').with(
-            ensure: 'present'
+            ensure: 'present',
           )
         end
 
         it do
           is_expected.to contain_file('packetbeat.yml').with(
             path: '/etc/packetbeat/packetbeat.yml',
-            mode: '0440'
+            mode: '0440',
           )
         end
 
@@ -604,7 +604,7 @@ describe 'packetbeat', type: 'class' do
           is_expected.to contain_service('packetbeat').with(
             ensure: 'running',
             enable: true,
-            hasrestart: true
+            hasrestart: true,
           )
         end
       end
@@ -615,14 +615,14 @@ describe 'packetbeat', type: 'class' do
             disable_config_test: true,
             outputs:             {
               'elasticsearch' => {
-                'hosts' => ['http://localhost:9200']
-              }
+                'hosts' => ['http://localhost:9200'],
+              },
             },
             protocols:           {
               'icmp' => {
-                'enabled' => true
-              }
-            }
+                'enabled' => true,
+              },
+            },
           }
         end
 
@@ -636,13 +636,13 @@ describe 'packetbeat', type: 'class' do
           is_expected.to contain_file('packetbeat.yml').with(
             path:         '/etc/packetbeat/packetbeat.yml',
             mode:         '0644',
-            validate_cmd: nil
+            validate_cmd: nil,
           )
         end
 
         it do
           is_expected.to contain_package('packetbeat').with(
-            ensure: 'present'
+            ensure: 'present',
           )
         end
 
@@ -652,7 +652,7 @@ describe 'packetbeat', type: 'class' do
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
               enabled: 1,
               gpgcheck: 1,
-              gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
+              gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
             )
           end
         elsif f[:os][:family] == 'Debian'
@@ -663,8 +663,8 @@ describe 'packetbeat', type: 'class' do
               repos: 'main',
               key: {
                 id: '46095ACC8548582C1A2699A9D27D666CD88E42B4',
-                source: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
-              }
+                source: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
+              },
             )
           end
         elsif f[:os][:family] == 'SuSe'
@@ -676,7 +676,7 @@ describe 'packetbeat', type: 'class' do
               gpgcheck: 1,
               gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
               name: 'beats',
-              type: 'yum'
+              type: 'yum',
             )
           end
         end
@@ -688,14 +688,14 @@ describe 'packetbeat', type: 'class' do
             ensure:    'absent',
             outputs:   {
               'elasticsearch' => {
-                'hosts' => ['http://localhost:9200']
-              }
+                'hosts' => ['http://localhost:9200'],
+              },
             },
             protocols: {
               'icmp' => {
-                'enabled' => true
-              }
-            }
+                'enabled' => true,
+              },
+            },
           }
         end
 
@@ -711,7 +711,7 @@ describe 'packetbeat', type: 'class' do
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
               enabled: 1,
               gpgcheck: 1,
-              gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
+              gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
             )
           end
         elsif f[:os][:family] == 'Debian'
@@ -722,8 +722,8 @@ describe 'packetbeat', type: 'class' do
               repos: 'main',
               key: {
                 id: '46095ACC8548582C1A2699A9D27D666CD88E42B4',
-                source: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
-              }
+                source: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
+              },
             )
           end
         elsif f[:os][:family] == 'SuSe'
@@ -735,20 +735,20 @@ describe 'packetbeat', type: 'class' do
               gpgcheck: 1,
               gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
               name: 'beats',
-              type: 'yum'
+              type: 'yum',
             )
           end
         end
 
         it do
           is_expected.to contain_package('packetbeat').with(
-            ensure: 'absent'
+            ensure: 'absent',
           )
         end
 
         it do
           is_expected.to contain_file('packetbeat.yml').with(
-            ensure: 'absent'
+            ensure: 'absent',
           )
         end
 
@@ -756,7 +756,7 @@ describe 'packetbeat', type: 'class' do
           is_expected.to contain_service('packetbeat').with(
             ensure: 'stopped',
             enable: false,
-            hasrestart: true
+            hasrestart: true,
           )
         end
       end

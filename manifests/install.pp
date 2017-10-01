@@ -1,3 +1,8 @@
+# packetbeat::install
+#
+# Manages the state of Package['packetbeat']
+#
+# @summary Manages the state of Package['packetbeat']
 class packetbeat::install {
   assert_private()
 

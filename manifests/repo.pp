@@ -1,3 +1,8 @@
+# packetbeat::repo
+#
+# If included configure the relevant repo manager on the target node.
+#
+# @summary Manages the relevant repo manager on the target node.
 class packetbeat::repo {
   assert_private()
 

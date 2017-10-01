@@ -1,3 +1,8 @@
+# packetbeat::service
+#
+# Manages the state of Service['packetbeat']
+#
+# @summary Manages the state of Service['packetbeat']
 class packetbeat::service {
   assert_private()
 

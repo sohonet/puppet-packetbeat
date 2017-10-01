@@ -1,3 +1,8 @@
+# packetbeat::config
+#
+# Renders the content of Packetbeat's configuration file
+#
+# @summary Manages Packetbeat's configuration file
 class packetbeat::config {
   assert_private()
 

@@ -4,6 +4,8 @@
 # This class installs the Elastic packetbeat network packet analyzer
 # and manages the configuration.
 #
+# @summary Installs, configures and manages Packetbeat on the target node.
+#
 # Parameters
 # ----------
 #
@@ -137,29 +139,25 @@
 # --------
 #
 # @example
-#    class { 'packetbeat':
-#      processors => [
-#        {
-#          'drop_fields' => {
-#            'fields' => ['field1', 'field2']
-#          }
-#        }
-#      ],
-#      protocols => {
-#        'icmp' => {
-#          'enabled' => true
-#        }
-#      },
-#      outputs   => {
-#        'elasticsearch' => {
-#          'hosts' => ['localhost:9200']
-#        }
-#      }
-#    }
-#
-#
-# Corey Hammerton <corey.hammerton@gmail.com>
-#
+# class{'packetbeat':
+#   processors => [
+#     {
+#       'drop_fields' => {
+#         'fields' => ['field1', 'field2']
+#       }
+#     }
+#   ],
+#   protocols => {
+#     'icmp' => {
+#       'enabled' => true
+#     }
+#   },
+#   outputs   => {
+#     'elasticsearch' => {
+#       'hosts' => ['localhost:9200']
+#     }
+#   }
+# }
 class packetbeat(
   Hash $outputs,
   Hash $protocols,
