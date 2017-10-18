@@ -246,14 +246,15 @@ please consider writing tests if applicable.
 
 ### Testing
 
-In the root of your checkout directory execute the following commands to setup
-and perform automatic testing of new code submissions.
+Sandbox testing is done through the [PDK](https://puppet.com/docs/pdk/1.0/index.html) utility provided by
+Puppet. To utilize `PDK` execute the following commands to validate and
+test the new code:
 
-1. Installs all Ruby Gems
+1. Validate syntax of `metadata.json`, all `*.pp*` and all `*.rb` files
 ```
-bundle install
+pdk validate
 ```
-1. Perform tests
+2. Perform tests
 ```
-bundle exec rake validate test rubocop
+pdk test unit
 ```
