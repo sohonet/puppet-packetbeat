@@ -1,10 +1,10 @@
 require 'spec_helper'
 describe 'packetbeat', type: 'class' do
-  on_supported_os.each do |os, f|
+  on_supported_os.each do |os, os_facts|
     context "on #{os}" do
-      context 'with defaults' do
-        it { is_expected.to raise_error(Puppet::Error) }
-      end
+      let(:facts) { os_facts }
+
+      it { is_expected.to compile }
 
       context 'with icmp protocol and elasticsearch output' do
         let :params do
@@ -41,7 +41,7 @@ describe 'packetbeat', type: 'class' do
           )
         end
 
-        if f[:os][:family] == 'RedHat'
+        if os_facts[:os][:family] == 'RedHat'
           it do
             is_expected.to contain_yumrepo('beats').with(
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
@@ -50,7 +50,7 @@ describe 'packetbeat', type: 'class' do
               gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
             )
           end
-        elsif f[:os][:family] == 'Debian'
+        elsif os_facts[:os][:family] == 'Debian'
           it do
             is_expected.to contain_apt__source('beats').with(
               location: 'https://artifacts.elastic.co/packages/5.x/apt',
@@ -62,7 +62,7 @@ describe 'packetbeat', type: 'class' do
               },
             )
           end
-        elsif f[:os][:family] == 'SuSe'
+        elsif os_facts[:os][:family] == 'SuSe'
           it do
             is_expected.to contain_zypprepo('beats').with(
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
@@ -100,9 +100,9 @@ describe 'packetbeat', type: 'class' do
         it { is_expected.to contain_class('packetbeat::service') }
 
         it do
-          if f[:os][:family] == 'RedHat'
+          if os_facts[:os][:family] == 'RedHat'
             is_exptected.not_to contain_yumrepo('beats')
-          elsif f[:os][:family] == 'Debian'
+          elsif os_facts[:os][:family] == 'Debian'
             is_expected.not_to contain_apt__source('beats')
           end
         end
@@ -165,7 +165,7 @@ describe 'packetbeat', type: 'class' do
           )
         end
 
-        if f[:os][:family] == 'RedHat'
+        if os_facts[:os][:family] == 'RedHat'
           it do
             is_expected.to contain_yumrepo('beats').with(
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
@@ -174,7 +174,7 @@ describe 'packetbeat', type: 'class' do
               gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
             )
           end
-        elsif f[:os][:family] == 'Debian'
+        elsif os_facts[:os][:family] == 'Debian'
           it do
             is_expected.to contain_apt__source('beats').with(
               location: 'https://artifacts.elastic.co/packages/5.x/apt',
@@ -186,7 +186,7 @@ describe 'packetbeat', type: 'class' do
               },
             )
           end
-        elsif f[:os][:family] == 'SuSe'
+        elsif os_facts[:os][:family] == 'SuSe'
           it do
             is_expected.to contain_zypprepo('beats').with(
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
@@ -232,7 +232,7 @@ describe 'packetbeat', type: 'class' do
         it { is_expected.to contain_class('packetbeat::repo') }
         it { is_expected.to contain_class('packetbeat::service') }
 
-        if f[:os][:family] == 'RedHat'
+        if os_facts[:os][:family] == 'RedHat'
           it do
             is_expected.to contain_yumrepo('beats').with(
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
@@ -241,7 +241,7 @@ describe 'packetbeat', type: 'class' do
               gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
             )
           end
-        elsif f[:os][:family] == 'Debian'
+        elsif os_facts[:os][:family] == 'Debian'
           it do
             is_expected.to contain_apt__source('beats').with(
               location: 'https://artifacts.elastic.co/packages/5.x/apt',
@@ -253,7 +253,7 @@ describe 'packetbeat', type: 'class' do
               },
             )
           end
-        elsif f[:os][:family] == 'SuSe'
+        elsif os_facts[:os][:family] == 'SuSe'
           it do
             is_expected.to contain_zypprepo('beats').with(
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
@@ -312,7 +312,7 @@ describe 'packetbeat', type: 'class' do
         it { is_expected.to contain_class('packetbeat::repo') }
         it { is_expected.to contain_class('packetbeat::service') }
 
-        if f[:os][:family] == 'RedHat'
+        if os_facts[:os][:family] == 'RedHat'
           it do
             is_expected.to contain_yumrepo('beats').with(
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
@@ -321,7 +321,7 @@ describe 'packetbeat', type: 'class' do
               gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
             )
           end
-        elsif f[:os][:family] == 'Debian'
+        elsif os_facts[:os][:family] == 'Debian'
           it do
             is_expected.to contain_apt__source('beats').with(
               location: 'https://artifacts.elastic.co/packages/5.x/apt',
@@ -333,7 +333,7 @@ describe 'packetbeat', type: 'class' do
               },
             )
           end
-        elsif f[:os][:family] == 'SuSe'
+        elsif os_facts[:os][:family] == 'SuSe'
           it do
             is_expected.to contain_zypprepo('beats').with(
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
@@ -392,7 +392,7 @@ describe 'packetbeat', type: 'class' do
         it { is_expected.to contain_class('packetbeat::repo') }
         it { is_expected.to contain_class('packetbeat::service') }
 
-        if f[:os][:family] == 'RedHat'
+        if os_facts[:os][:family] == 'RedHat'
           it do
             is_expected.to contain_yumrepo('beats').with(
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
@@ -401,7 +401,7 @@ describe 'packetbeat', type: 'class' do
               gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
             )
           end
-        elsif f[:os][:family] == 'Debian'
+        elsif os_facts[:os][:family] == 'Debian'
           it do
             is_expected.to contain_apt__source('beats').with(
               location: 'https://artifacts.elastic.co/packages/5.x/apt',
@@ -413,7 +413,7 @@ describe 'packetbeat', type: 'class' do
               },
             )
           end
-        elsif f[:os][:family] == 'SuSe'
+        elsif os_facts[:os][:family] == 'SuSe'
           it do
             is_expected.to contain_zypprepo('beats').with(
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
@@ -472,7 +472,7 @@ describe 'packetbeat', type: 'class' do
         it { is_expected.to contain_class('packetbeat::repo') }
         it { is_expected.to contain_class('packetbeat::service') }
 
-        if f[:os][:family] == 'RedHat'
+        if os_facts[:os][:family] == 'RedHat'
           it do
             is_expected.to contain_yumrepo('beats').with(
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
@@ -481,7 +481,7 @@ describe 'packetbeat', type: 'class' do
               gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
             )
           end
-        elsif f[:os][:family] == 'Debian'
+        elsif os_facts[:os][:family] == 'Debian'
           it do
             is_expected.to contain_apt__source('beats').with(
               location: 'https://artifacts.elastic.co/packages/5.x/apt',
@@ -493,7 +493,7 @@ describe 'packetbeat', type: 'class' do
               },
             )
           end
-        elsif f[:os][:family] == 'SuSe'
+        elsif os_facts[:os][:family] == 'SuSe'
           it do
             is_expected.to contain_zypprepo('beats').with(
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
@@ -552,7 +552,7 @@ describe 'packetbeat', type: 'class' do
         it { is_expected.to contain_class('packetbeat::repo') }
         it { is_expected.to contain_class('packetbeat::service') }
 
-        if f[:os][:family] == 'RedHat'
+        if os_facts[:os][:family] == 'RedHat'
           it do
             is_expected.to contain_yumrepo('beats').with(
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
@@ -561,7 +561,7 @@ describe 'packetbeat', type: 'class' do
               gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
             )
           end
-        elsif f[:os][:family] == 'Debian'
+        elsif os_facts[:os][:family] == 'Debian'
           it do
             is_expected.to contain_apt__source('beats').with(
               location: 'https://artifacts.elastic.co/packages/5.x/apt',
@@ -573,7 +573,7 @@ describe 'packetbeat', type: 'class' do
               },
             )
           end
-        elsif f[:os][:family] == 'SuSe'
+        elsif os_facts[:os][:family] == 'SuSe'
           it do
             is_expected.to contain_zypprepo('beats').with(
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
@@ -646,7 +646,7 @@ describe 'packetbeat', type: 'class' do
           )
         end
 
-        if f[:os][:family] == 'RedHat'
+        if os_facts[:os][:family] == 'RedHat'
           it do
             is_expected.to contain_yumrepo('beats').with(
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
@@ -655,7 +655,7 @@ describe 'packetbeat', type: 'class' do
               gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
             )
           end
-        elsif f[:os][:family] == 'Debian'
+        elsif os_facts[:os][:family] == 'Debian'
           it do
             is_expected.to contain_apt__source('beats').with(
               location: 'https://artifacts.elastic.co/packages/5.x/apt',
@@ -667,7 +667,7 @@ describe 'packetbeat', type: 'class' do
               },
             )
           end
-        elsif f[:os][:family] == 'SuSe'
+        elsif os_facts[:os][:family] == 'SuSe'
           it do
             is_expected.to contain_zypprepo('beats').with(
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
@@ -705,7 +705,7 @@ describe 'packetbeat', type: 'class' do
         it { is_expected.to contain_class('packetbeat::repo') }
         it { is_expected.to contain_class('packetbeat::service') }
 
-        if f[:os][:family] == 'RedHat'
+        if os_facts[:os][:family] == 'RedHat'
           it do
             is_expected.to contain_yumrepo('beats').with(
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
@@ -714,7 +714,7 @@ describe 'packetbeat', type: 'class' do
               gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
             )
           end
-        elsif f[:os][:family] == 'Debian'
+        elsif os_facts[:os][:family] == 'Debian'
           it do
             is_expected.to contain_apt__source('beats').with(
               location: 'https://artifacts.elastic.co/packages/5.x/apt',
@@ -726,7 +726,7 @@ describe 'packetbeat', type: 'class' do
               },
             )
           end
-        elsif f[:os][:family] == 'SuSe'
+        elsif os_facts[:os][:family] == 'SuSe'
           it do
             is_expected.to contain_zypprepo('beats').with(
               baseurl: 'https://artifacts.elastic.co/packages/5.x/yum',
