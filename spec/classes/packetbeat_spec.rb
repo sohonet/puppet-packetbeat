@@ -23,9 +23,9 @@ describe 'packetbeat', type: 'class' do
         end
 
         it { is_expected.to compile.with_all_deps }
-        it { is_expected.to contain_class('packetbeat::config') }
-        it { is_expected.to contain_class('packetbeat::install') }
-        it { is_expected.to contain_class('packetbeat::repo') }
+        it { is_expected.to contain_class('packetbeat::config').that_notifies('Class[packetbeat::service]') }
+        it { is_expected.to contain_class('packetbeat::install').that_comes_before('Class[packetbeat::config]').that_notifies('Class[packetbeat::service]') }
+        it { is_expected.to contain_class('packetbeat::repo').that_comes_before('Class[packetbeat::install]') }
         it { is_expected.to contain_class('packetbeat::service') }
 
         it do
@@ -95,8 +95,8 @@ describe 'packetbeat', type: 'class' do
         end
 
         it { is_expected.not_to contain_class('packetbeat::repo') }
-        it { is_expected.to contain_class('packetbeat::config') }
-        it { is_expected.to contain_class('packetbeat::install') }
+        it { is_expected.to contain_class('packetbeat::config').that_notifies('Class[packetbeat::service]') }
+        it { is_expected.to contain_class('packetbeat::install').that_comes_before('Class[packetbeat::config]').that_notifies('Class[packetbeat::service]') }
         it { is_expected.to contain_class('packetbeat::service') }
 
         it do
@@ -147,9 +147,9 @@ describe 'packetbeat', type: 'class' do
         end
 
         it { is_expected.to compile.with_all_deps }
-        it { is_expected.to contain_class('packetbeat::config') }
-        it { is_expected.to contain_class('packetbeat::install') }
-        it { is_expected.to contain_class('packetbeat::repo') }
+        it { is_expected.to contain_class('packetbeat::config').that_notifies('Class[packetbeat::service]') }
+        it { is_expected.to contain_class('packetbeat::install').that_comes_before('Class[packetbeat::config]').that_notifies('Class[packetbeat::service]') }
+        it { is_expected.to contain_class('packetbeat::repo').that_comes_before('Class[packetbeat::install]') }
         it { is_expected.to contain_class('packetbeat::service') }
 
         it do
@@ -227,9 +227,9 @@ describe 'packetbeat', type: 'class' do
         end
 
         it { is_expected.to compile.with_all_deps }
-        it { is_expected.to contain_class('packetbeat::config') }
-        it { is_expected.to contain_class('packetbeat::install') }
-        it { is_expected.to contain_class('packetbeat::repo') }
+        it { is_expected.to contain_class('packetbeat::config').that_notifies('Class[packetbeat::service]') }
+        it { is_expected.to contain_class('packetbeat::install').that_comes_before('Class[packetbeat::config]').that_notifies('Class[packetbeat::service]') }
+        it { is_expected.to contain_class('packetbeat::repo').that_comes_before('Class[packetbeat::install]') }
         it { is_expected.to contain_class('packetbeat::service') }
 
         if os_facts[:os][:family] == 'RedHat'
@@ -307,9 +307,9 @@ describe 'packetbeat', type: 'class' do
         end
 
         it { is_expected.to compile.with_all_deps }
-        it { is_expected.to contain_class('packetbeat::config') }
-        it { is_expected.to contain_class('packetbeat::install') }
-        it { is_expected.to contain_class('packetbeat::repo') }
+        it { is_expected.to contain_class('packetbeat::config').that_notifies('Class[packetbeat::service]') }
+        it { is_expected.to contain_class('packetbeat::install').that_comes_before('Class[packetbeat::config]').that_notifies('Class[packetbeat::service]') }
+        it { is_expected.to contain_class('packetbeat::repo').that_comes_before('Class[packetbeat::install]') }
         it { is_expected.to contain_class('packetbeat::service') }
 
         if os_facts[:os][:family] == 'RedHat'
@@ -387,9 +387,9 @@ describe 'packetbeat', type: 'class' do
         end
 
         it { is_expected.to compile.with_all_deps }
-        it { is_expected.to contain_class('packetbeat::config') }
-        it { is_expected.to contain_class('packetbeat::install') }
-        it { is_expected.to contain_class('packetbeat::repo') }
+        it { is_expected.to contain_class('packetbeat::config').that_notifies('Class[packetbeat::service]') }
+        it { is_expected.to contain_class('packetbeat::install').that_comes_before('Class[packetbeat::config]').that_notifies('Class[packetbeat::service]') }
+        it { is_expected.to contain_class('packetbeat::repo').that_comes_before('Class[packetbeat::install]') }
         it { is_expected.to contain_class('packetbeat::service') }
 
         if os_facts[:os][:family] == 'RedHat'
@@ -467,9 +467,9 @@ describe 'packetbeat', type: 'class' do
         end
 
         it { is_expected.to compile.with_all_deps }
-        it { is_expected.to contain_class('packetbeat::config') }
-        it { is_expected.to contain_class('packetbeat::install') }
-        it { is_expected.to contain_class('packetbeat::repo') }
+        it { is_expected.to contain_class('packetbeat::config').that_notifies('Class[packetbeat::service]') }
+        it { is_expected.to contain_class('packetbeat::install').that_comes_before('Class[packetbeat::config]').that_notifies('Class[packetbeat::service]') }
+        it { is_expected.to contain_class('packetbeat::repo').that_comes_before('Class[packetbeat::install]') }
         it { is_expected.to contain_class('packetbeat::service') }
 
         if os_facts[:os][:family] == 'RedHat'
@@ -547,9 +547,9 @@ describe 'packetbeat', type: 'class' do
         end
 
         it { is_expected.to compile.with_all_deps }
-        it { is_expected.to contain_class('packetbeat::config') }
-        it { is_expected.to contain_class('packetbeat::install') }
-        it { is_expected.to contain_class('packetbeat::repo') }
+        it { is_expected.to contain_class('packetbeat::config').that_notifies('Class[packetbeat::service]') }
+        it { is_expected.to contain_class('packetbeat::install').that_comes_before('Class[packetbeat::config]').that_notifies('Class[packetbeat::service]') }
+        it { is_expected.to contain_class('packetbeat::repo').that_comes_before('Class[packetbeat::install]') }
         it { is_expected.to contain_class('packetbeat::service') }
 
         if os_facts[:os][:family] == 'RedHat'
@@ -627,9 +627,9 @@ describe 'packetbeat', type: 'class' do
         end
 
         it { is_expected.to compile.with_all_deps }
-        it { is_expected.to contain_class('packetbeat::config') }
-        it { is_expected.to contain_class('packetbeat::install') }
-        it { is_expected.to contain_class('packetbeat::repo') }
+        it { is_expected.to contain_class('packetbeat::config').that_notifies('Class[packetbeat::service]') }
+        it { is_expected.to contain_class('packetbeat::install').that_comes_before('Class[packetbeat::config]').that_notifies('Class[packetbeat::service]') }
+        it { is_expected.to contain_class('packetbeat::repo').that_comes_before('Class[packetbeat::install]') }
         it { is_expected.to contain_class('packetbeat::service') }
 
         it do
@@ -703,7 +703,7 @@ describe 'packetbeat', type: 'class' do
         it { is_expected.to contain_class('packetbeat::config') }
         it { is_expected.to contain_class('packetbeat::install') }
         it { is_expected.to contain_class('packetbeat::repo') }
-        it { is_expected.to contain_class('packetbeat::service') }
+        it { is_expected.to contain_class('packetbeat::service').that_comes_before('Class[packetbeat::install]') }
 
         if os_facts[:os][:family] == 'RedHat'
           it do

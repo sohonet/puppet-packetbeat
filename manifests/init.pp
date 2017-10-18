@@ -207,6 +207,7 @@ class packetbeat(
 
     Anchor['packetbeat::begin']
     -> Class['packetbeat::repo']
+    -> Class['packetbeat::install']
   }
 
   if $ensure == 'present' {
