@@ -4,7 +4,7 @@
 # Renders the content of Packetbeat's configuration file
 #
 # @summary Manages Packetbeat's configuration file
-class packetbeat::config {
+class packetbeat::config inherits packetbeat {
   $validate_cmd      = $packetbeat::disable_config_test ? {
     true    => undef,
     default => "${packetbeat::path_home}/bin/packetbeat -N -configtest -c %",

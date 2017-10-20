@@ -4,7 +4,7 @@
 # If included configure the relevant repo manager on the target node.
 #
 # @summary Manages the relevant repo manager on the target node.
-class packetbeat::repo {
+class packetbeat::repo inherits packetbeat {
   case $facts['osfamily'] {
     'Debian': {
       include ::apt

@@ -4,7 +4,7 @@
 # Manages the state of Service['packetbeat']
 #
 # @summary Manages the state of Service['packetbeat']
-class packetbeat::service {
+class packetbeat::service inherits packetbeat {
   if $packetbeat::ensure == 'present' {
     case $packetbeat::service_ensure {
       'enabled': {
