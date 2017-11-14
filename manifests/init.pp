@@ -159,8 +159,8 @@
 #   }
 # }
 class packetbeat(
-  Hash $outputs,
-  Hash $protocols,
+  Hash $outputs                                                       = {},
+  Hash $protocols                                                     = {},
   Enum['present', 'absent'] $ensure                                   = 'present',
   String $beat_name                                                   = $::hostname,
   Optional[String] $bpf_filter                                        = undef,
@@ -207,6 +207,7 @@ class packetbeat(
 
     Anchor['packetbeat::begin']
     -> Class['packetbeat::repo']
+    -> Class['packetbeat::install']
   }
 
   if $ensure == 'present' {

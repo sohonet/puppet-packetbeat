@@ -1,11 +1,10 @@
 # packetbeat::repo
+# @api private
 #
 # If included configure the relevant repo manager on the target node.
 #
 # @summary Manages the relevant repo manager on the target node.
-class packetbeat::repo {
-  assert_private()
-
+class packetbeat::repo inherits packetbeat {
   case $facts['osfamily'] {
     'Debian': {
       include ::apt
@@ -35,8 +34,8 @@ class packetbeat::repo {
     }
     'SuSe': {
       exec { 'topbeat_suse_import_gpg':
-        command => 'rpmkeys --import https://artifacts.elastic.co/GPG-KEY-elasticsearch',
-        unless  => 'test $(rpm -qa gpg-pubkey | grep -i "D88E42B4" | wc -l) -eq 1 ',
+        command => '/usr/bin/rpmkeys --import https://artifacts.elastic.co/GPG-KEY-elasticsearch',
+        unless  => '/usr/bin/test $(rpm -qa gpg-pubkey | grep -i "D88E42B4" | wc -l) -eq 1 ',
         notify  => [ Zypprepo['beats'] ],
       }
       if !defined (Zypprepo['beats']) {
