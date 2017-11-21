@@ -1,6 +1,11 @@
 Changelog
 =========
 
+## [0.2.0]
+
+- Adding support for Packetbeat 6.0
+-- Removing the `queue_size` class parameter, this setting has been removed from all beats
+
 ## [0.1.1](https://github.com/corey-hammerton/puppet-packetbeat/tree/0.1.1)
 
 - Fixing configuration file validation

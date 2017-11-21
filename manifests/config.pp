@@ -20,7 +20,6 @@ class packetbeat::config inherits packetbeat {
       'home' => $packetbeat::path_home,
       'logs' => $packetbeat::path_logs,
     },
-    'queue_size'        => $packetbeat::queue_size,
     'tags'              => $packetbeat::tags,
     'processors'        => $packetbeat::processors,
     'packetbeat'        => {

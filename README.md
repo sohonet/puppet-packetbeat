@@ -191,8 +191,6 @@ Installs and configures packetbeat.
   (default: /var/log/packetbeat)
 - `processors`: [Array[Hash]] Add processors to the configuration to run on data
   before sending to the output. (default: undef)
-- `queue_size`: [Integer] The queue size for single events in the processing
-  pipeline. (default: 1000)
 - `service_ensure`: [String] Determine the state of the packet beat service. Must
   be one of 'enabled', 'disabled', 'running', 'unmanaged'. (default: enabled)
 - `service_has_restart`: [Boolean] When true the Service resource issues the
