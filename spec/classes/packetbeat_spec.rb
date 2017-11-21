@@ -121,6 +121,54 @@ describe 'packetbeat', type: 'class' do
             )
           end
         end
+
+        describe 'with major_version = 6' do
+          let(:params) { { 'major_version' => '6' } }
+
+          case os_facts[:osfamily]
+          when 'RedHat'
+            it do
+              is_expected.to contain_yumrepo('beats').with(
+                baseurl: 'https://artifacts.elastic.co/packages/6.x/yum',
+                enabled: 1,
+                gpgcheck: 1,
+                gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
+              )
+            end
+          when 'Debian'
+            it { is_expected.to contain_class('apt') }
+
+            it do
+              is_expected.to contain_apt__source('beats').with(
+                location: 'https://artifacts.elastic.co/packages/6.x/apt',
+                release: 'stable',
+                repos: 'main',
+                key: {
+                  'id' => '46095ACC8548582C1A2699A9D27D666CD88E42B4',
+                  'source' => 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
+                },
+              )
+            end
+          when 'SuSe'
+            it do
+              is_expected.to contain_zypprepo('beats').with(
+                baseurl: 'https://artifacts.elastic.co/packages/6.x/yum',
+                autorefresh: 1,
+                enabled: 1,
+                gpgcheck: 1,
+                gpgkey: 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
+                name: 'beats',
+                type: 'yum',
+              )
+            end
+          end
+        end
+
+        describe 'with major_version = idontknow' do
+          let(:params) { { 'major_version' => 'idontknow' } }
+
+          it { is_expected.not_to compile }
+        end
       end
 
       describe 'packetbeat::service' do

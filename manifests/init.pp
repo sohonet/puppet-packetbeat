@@ -67,6 +67,10 @@
 # [Hash] The configuration section of `packetbeat.yml` for configuring the
 # logging output.
 #
+# * `major_version`
+# [Enum] The major version of Packetbeat to install from vendor repositories.
+# Valid values are '5' and '6'. (default: '5')
+#
 # * `manage_repo`
 # [Boolean] Weather the upstream (elastic) repo should be configured or
 # not. (default: true)
@@ -183,6 +187,7 @@ class packetbeat(
       'rotateeverybytes' => 10485760,
     },
   },
+  Enum['5', '6'] $major_version                                       = '5',
   Boolean $manage_repo                                                = true,
   String $package_ensure                                              = 'present',
   Stdlib::Absolutepath $path_conf                                     = '/etc/packetbeat',
