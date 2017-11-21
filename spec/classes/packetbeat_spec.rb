@@ -258,6 +258,26 @@ describe 'packetbeat', type: 'class' do
 
         it { is_expected.not_to compile }
       end
+
+      context 'with sniff_type = pf_ring' do
+        let :params do
+          {
+            outputs:     {
+              'elasticsearch' => {
+                'hosts' => ['http://localhost:9200'],
+              },
+            },
+            protocols:   {
+              'icmp' => {
+                'enabled' => true,
+              },
+            },
+            sniff_type:  'pf_ring',
+          }
+        end
+
+        it { is_expected.not_to compile }
+      end
     end
   end
 end

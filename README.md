@@ -199,9 +199,7 @@ Installs and configures packetbeat.
   environments can accept the default, on a physical interface the optimal value
   is the MTU size. (default: 65535)
 - `sniff_type`: [String] Configure the sniffer type, packet beat only supports
-  'pcap', 'af_packet' (Linux only, faster than 'pcap') and 'pf_ring' (Requires
-  a kernel module and a re-compilation of Packetbeat, not supported by Elastic).
-  (default: 'pcap')
+  'pcap', and 'af_packet' (Linux only, faster than 'pcap') (default: 'pcap')
 - `tags`: [Array] Optional list of tags to help group different logical properties
   easily. (default: undef)
 - `with_vlans`: [Boolean] If traffic contains VLAN tags all traffic is offset by

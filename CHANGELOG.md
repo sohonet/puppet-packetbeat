@@ -5,6 +5,7 @@ Changelog
 
 - Adding support for Packetbeat 6.0
 -- Removing the `queue_size` class parameter, this setting has been removed from all beats
+-- Removing unsupported sniffer type `pf_ring` from available `sniff_type` options
 
 ## [0.1.1](https://github.com/corey-hammerton/puppet-packetbeat/tree/0.1.1)
 

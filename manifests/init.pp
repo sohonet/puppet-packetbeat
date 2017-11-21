@@ -106,7 +106,7 @@
 #
 # * `sniff_type`
 # [String] The sniffer type to use. Packet only has support for pcap,
-# af_packet and pf_ring. (default: 'pcap')
+# and af_packet. (default: 'pcap')
 #
 # * `tags`
 # Optional[Array] A list of values to include in the `tags` field in each published
@@ -193,7 +193,7 @@ class packetbeat(
   Enum['enabled', 'disabled', 'running', 'unmanaged'] $service_ensure = 'enabled',
   Boolean $service_has_restart                                        = true,
   Integer $snaplen                                                    = 65535,
-  Enum['pcap', 'af_packet', 'pf_ring'] $sniff_type                    = 'pcap',
+  Enum['pcap', 'af_packet'] $sniff_type                               = 'pcap',
   Optional[Array[String]] $tags                                       = undef,
   Optional[Boolean] $with_vlans                                       = undef,
 ) {
