@@ -96,6 +96,12 @@
 # enhancing or additional decoding of data before being sent to the
 # output.
 #
+# * 'queue`
+# Optional[Hash] Configure the internal queue before being consumed by the
+# output(s) in bulk transactions. As of 6.0 only a memory queue is
+# available, all settings must be configured by example: { 'mem' => {...}}.
+# (default: undef)
+#
 # * `service_ensure`
 # [String] The desired state of the packetbeat service. Must be one of
 # 'enabled', 'disabled', 'running' or 'unmanaged'. (default: 'enabled')
@@ -195,6 +201,7 @@ class packetbeat(
   Stdlib::Absolutepath $path_home                                     = '/usr/share/packetbeat',
   Stdlib::Absolutepath $path_logs                                     = '/var/log/packetbeat',
   Optional[Array[Hash]] $processors                                   = undef,
+  Optional[Hash] $queue                                               = undef,
   Enum['enabled', 'disabled', 'running', 'unmanaged'] $service_ensure = 'enabled',
   Boolean $service_has_restart                                        = true,
   Integer $snaplen                                                    = 65535,

@@ -208,6 +208,8 @@ Installs and configures packetbeat.
   (default: /var/log/packetbeat)
 - `processors`: [Array[Hash]] Add processors to the configuration to run on data
   before sending to the output. (default: undef)
+- `queue`: [Hash] Configure the internal queue in packetbeat before being consumed
+  by the output(s). (default: undef)
 - `service_ensure`: [String] Determine the state of the packet beat service. Must
   be one of 'enabled', 'disabled', 'running', 'unmanaged'. (default: enabled)
 - `service_has_restart`: [Boolean] When true the Service resource issues the

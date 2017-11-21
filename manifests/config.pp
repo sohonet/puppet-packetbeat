@@ -34,6 +34,7 @@ class packetbeat::config inherits packetbeat {
         'timeout' => $packetbeat::flow_timeout,
       },
       'protocols'  => $packetbeat::protocols,
+      'queue'      => $packetbeat::queue,
     },
     'output'     => $packetbeat::outputs,
   })
