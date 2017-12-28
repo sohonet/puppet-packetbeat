@@ -97,9 +97,9 @@
 # output.
 #
 # * 'queue`
-# Hash Configure the internal queue before being consumed by the output(s)
-# in bulk transactions. As of 6.0 only a memory queue is available, all
-# settings must be configured by example: { 'mem' => {...}}.
+# [Hash] Configure the internal queue before being consumed by the 
+# output(s) in bulk transactions. As of 6.0 only a memory queue is
+# available, all settings must be configured by example: { 'mem' => {...}}.
 #
 # * `queue_size`
 # [Number] The internal queue size for single events in the processing
