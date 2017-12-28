@@ -97,10 +97,9 @@
 # output.
 #
 # * 'queue`
-# Optional[Hash] Configure the internal queue before being consumed by the
-# output(s) in bulk transactions. As of 6.0 only a memory queue is
-# available, all settings must be configured by example: { 'mem' => {...}}.
-# (default: undef)
+# Hash Configure the internal queue before being consumed by the output(s)
+# in bulk transactions. As of 6.0 only a memory queue is available, all
+# settings must be configured by example: { 'mem' => {...}}.
 #
 # * `queue_size`
 # [Number] The internal queue size for single events in the processing
@@ -206,7 +205,15 @@ class packetbeat(
   Stdlib::Absolutepath $path_home                                     = '/usr/share/packetbeat',
   Stdlib::Absolutepath $path_logs                                     = '/var/log/packetbeat',
   Optional[Array[Hash]] $processors                                   = undef,
-  Optional[Hash] $queue                                               = undef,
+  Hash $queue                                                         = {
+    'mem' => {
+      'events' => 4096,
+      'flush'  => {
+        'min_events' => 0,
+        'timeout'    => '0s',
+      },
+    },
+  },
   Integer $queue_size                                                 = 1000,
   Enum['enabled', 'disabled', 'running', 'unmanaged'] $service_ensure = 'enabled',
   Boolean $service_has_restart                                        = true,

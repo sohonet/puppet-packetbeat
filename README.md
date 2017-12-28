@@ -209,7 +209,7 @@ Installs and configures packetbeat.
 - `processors`: [Array[Hash]] Add processors to the configuration to run on data
   before sending to the output. (default: undef)
 - `queue`: [Hash] Configure the internal queue in packetbeat before being consumed
-  by the output(s). (default: undef)
+  by the output(s).
 - `queue_size`: [Integer] The queue size for single events in the processing
    pipeline. This is only applicable if `major_version` is '5'. (default: 1000)
 - `service_ensure`: [String] Determine the state of the packet beat service. Must
