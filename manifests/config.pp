@@ -9,35 +9,69 @@ class packetbeat::config inherits packetbeat {
     true    => undef,
     default => "${packetbeat::path_home}/bin/packetbeat -N -configtest -c %",
   }
-  $packetbeat_config = delete_undef_values({
-    'name'              => $packetbeat::beat_name,
-    'fields'            => $packetbeat::fields,
-    'fields_under_root' => $packetbeat::fields_under_root,
-    'logging'           => $packetbeat::logging,
-    'path'              => {
-      'conf' => $packetbeat::path_conf,
-      'data' => $packetbeat::path_data,
-      'home' => $packetbeat::path_home,
-      'logs' => $packetbeat::path_logs,
-    },
-    'queue_size'        => $packetbeat::queue_size,
-    'tags'              => $packetbeat::tags,
-    'processors'        => $packetbeat::processors,
-    'packetbeat'        => {
-      'interfaces' => {
-        'device'  => $packetbeat::device,
-        'snaplen' => $packetbeat::snaplen,
-        'type'    => $packetbeat::sniff_type,
+
+  if $packetbeat::major_version == '5' {
+    $packetbeat_config = delete_undef_values({
+      'name'              => $packetbeat::beat_name,
+      'fields'            => $packetbeat::fields,
+      'fields_under_root' => $packetbeat::fields_under_root,
+      'logging'           => $packetbeat::logging,
+      'path'              => {
+        'conf' => $packetbeat::path_conf,
+        'data' => $packetbeat::path_data,
+        'home' => $packetbeat::path_home,
+        'logs' => $packetbeat::path_logs,
       },
-      'flows'      => {
-        'enabled' => $packetbeat::flow_enable,
-        'period'  => $packetbeat::flow_period,
-        'timeout' => $packetbeat::flow_timeout,
+      'tags'              => $packetbeat::tags,
+      'processors'        => $packetbeat::processors,
+      'packetbeat'        => {
+        'interfaces' => {
+          'device'  => $packetbeat::device,
+          'snaplen' => $packetbeat::snaplen,
+          'type'    => $packetbeat::sniff_type,
+        },
+        'flows'      => {
+          'enabled' => $packetbeat::flow_enable,
+          'period'  => $packetbeat::flow_period,
+          'timeout' => $packetbeat::flow_timeout,
+        },
+        'protocols'  => $packetbeat::protocols,
+        'queue_size' => $packetbeat::queue_size,
       },
-      'protocols'  => $packetbeat::protocols,
-    },
-    'output'     => $packetbeat::outputs,
-  })
+      'output'     => $packetbeat::outputs,
+    })
+  }
+  else {
+    $packetbeat_config = delete_undef_values({
+      'name'              => $packetbeat::beat_name,
+      'fields'            => $packetbeat::fields,
+      'fields_under_root' => $packetbeat::fields_under_root,
+      'logging'           => $packetbeat::logging,
+      'path'              => {
+        'conf' => $packetbeat::path_conf,
+        'data' => $packetbeat::path_data,
+        'home' => $packetbeat::path_home,
+        'logs' => $packetbeat::path_logs,
+      },
+      'tags'              => $packetbeat::tags,
+      'processors'        => $packetbeat::processors,
+      'packetbeat'        => {
+        'interfaces' => {
+          'device'  => $packetbeat::device,
+          'snaplen' => $packetbeat::snaplen,
+          'type'    => $packetbeat::sniff_type,
+        },
+        'flows'      => {
+          'enabled' => $packetbeat::flow_enable,
+          'period'  => $packetbeat::flow_period,
+          'timeout' => $packetbeat::flow_timeout,
+        },
+        'protocols'  => $packetbeat::protocols,
+        'queue'      => $packetbeat::queue,
+      },
+      'output'     => $packetbeat::outputs,
+    })
+  }
 
   if $packetbeat::sniff_type == 'af_packet' {
     $af_packet_config = delete_undef_values({
