@@ -287,6 +287,30 @@ describe 'packetbeat', type: 'class' do
         it { is_expected.to contain_class('packetbeat::service') }
       end
 
+      context 'with path_conf param' do
+        let(:params) { { 'path_conf' => '/etc/packetbeat' } }
+
+        it { is_expected.not_to compile }
+      end
+
+      context 'with path_data param' do
+        let(:params) { { 'path_data' => '/var/lib/packetbeat' } }
+
+        it { is_expected.not_to compile }
+      end
+
+      context 'with path_home param' do
+        let(:params) { { 'path_home' => '/usr/share/packetbeat' } }
+
+        it { is_expected.not_to compile }
+      end
+
+      context 'with path_logs param' do
+        let(:params) { { 'path_logs' => '/var/lgs/packetbeat' } }
+
+        it { is_expected.not_to compile }
+      end
+
       context 'with sniff_type = pf_ring' do
         let :params do
           {

@@ -78,19 +78,6 @@
 # * `package_ensure`
 # [String] The state the packetbeat package should be in. (default: present)
 #
-# * `path_conf`
-# [Absolute Path] The location of the configuration files. This setting
-# also controls the path to `packetbeat.yml`.
-#
-# * `path_data`
-# [Absolute Path] The location of the persistent data files.
-#
-# * `path_home`
-# [Absolute Path] The home of the Packetbeat configuration.
-#
-# * `path_logs`
-# [Absolute Path] The location of the logs created by Packetbeat.
-#
 # * `processors`
 # Optional[Array[Hash]] Configure processors to perform filtering, 
 # enhancing or additional decoding of data before being sent to the
@@ -200,10 +187,6 @@ class packetbeat(
   Enum['5', '6'] $major_version                                       = '5',
   Boolean $manage_repo                                                = true,
   String $package_ensure                                              = 'present',
-  Stdlib::Absolutepath $path_conf                                     = '/etc/packetbeat',
-  Stdlib::Absolutepath $path_data                                     = '/var/lib/packetbeat',
-  Stdlib::Absolutepath $path_home                                     = '/usr/share/packetbeat',
-  Stdlib::Absolutepath $path_logs                                     = '/var/log/packetbeat',
   Optional[Array[Hash]] $processors                                   = undef,
   Hash $queue                                                         = {
     'mem' => {

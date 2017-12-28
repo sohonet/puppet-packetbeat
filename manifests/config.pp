@@ -7,21 +7,14 @@
 class packetbeat::config inherits packetbeat {
   $validate_cmd      = $packetbeat::disable_config_test ? {
     true    => undef,
-    default => "${packetbeat::path_home}/bin/packetbeat -N -configtest -c %",
+    default => '/usr/share/packetbeat/bin/packetbeat -N -configtest -c %',
   }
-
   if $packetbeat::major_version == '5' {
     $packetbeat_config = delete_undef_values({
       'name'              => $packetbeat::beat_name,
       'fields'            => $packetbeat::fields,
       'fields_under_root' => $packetbeat::fields_under_root,
       'logging'           => $packetbeat::logging,
-      'path'              => {
-        'conf' => $packetbeat::path_conf,
-        'data' => $packetbeat::path_data,
-        'home' => $packetbeat::path_home,
-        'logs' => $packetbeat::path_logs,
-      },
       'tags'              => $packetbeat::tags,
       'processors'        => $packetbeat::processors,
       'packetbeat'        => {
@@ -47,12 +40,6 @@ class packetbeat::config inherits packetbeat {
       'fields'            => $packetbeat::fields,
       'fields_under_root' => $packetbeat::fields_under_root,
       'logging'           => $packetbeat::logging,
-      'path'              => {
-        'conf' => $packetbeat::path_conf,
-        'data' => $packetbeat::path_data,
-        'home' => $packetbeat::path_home,
-        'logs' => $packetbeat::path_logs,
-      },
       'tags'              => $packetbeat::tags,
       'processors'        => $packetbeat::processors,
       'packetbeat'        => {
@@ -89,11 +76,11 @@ class packetbeat::config inherits packetbeat {
 
   file{'packetbeat.yml':
     ensure       => $packetbeat::ensure,
-    path         => "${packetbeat::path_conf}/packetbeat.yml",
+    path         => '/etc/packetbeat/packetbeat.yml',
     owner        => 'root',
     group        => 'root',
     mode         => $packetbeat::config_file_mode,
-    content      => inline_template("### Packetbeat configuration managed by Puppet ###\n\n<%= @packetbeat_config.to_yaml() %>"),
+    content      => inline_template('<%= @packetbeat_config.to_yaml() %>'),
     validate_cmd => $validate_cmd,
   }
 }
