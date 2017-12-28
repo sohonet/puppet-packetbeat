@@ -181,14 +181,6 @@ Installs and configures packetbeat.
   to the node's package manager. (default: true)
 - `package_ensure`: [String] The desired state of the Package resources. Only
   applicable if `ensure` is 'present'. (default: 'present')
-- `path_conf`: [Stdlib::Absolutepath] The base path for all packetbeat
-  configurations. (default: /etc/packetbeat)
-- `path_data`: [Stdlib::Absolutepath] The base path to where packetbeat stores
-  its data. (default: /var/lib/packetbeat)
-- `path_home`: [Stdlib::Absolutepath] The base path for the packetbeat installation,
-  where the packetbeat binary is stored. (default: /usr/share/packetbeat)
-- `path_logs`: [Stdlib::Absolutepath] The base path for packetbeat's log files.
-  (default: /var/log/packetbeat)
 - `processors`: [Array[Hash]] Add processors to the configuration to run on data
   before sending to the output. (default: undef)
 - `queue_size`: [Integer] The queue size for single events in the processing
@@ -214,7 +206,7 @@ Installs and configures packetbeat.
 
 #### Class: `packetbeat::config`
 
-Manages packetbeats main configuration file under `path_conf`
+Manages packetbeats main configuration file.
 
 #### Class: `packetbeat::install`
 
