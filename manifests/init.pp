@@ -102,6 +102,11 @@
 # available, all settings must be configured by example: { 'mem' => {...}}.
 # (default: undef)
 #
+# * `queue_size`
+# [Number] The internal queue size for single events in the processing
+# pipeline. This is only applicable if $major_version is '5'.
+# (default: 1000)
+#
 # * `service_ensure`
 # [String] The desired state of the packetbeat service. Must be one of
 # 'enabled', 'disabled', 'running' or 'unmanaged'. (default: 'enabled')
@@ -202,6 +207,7 @@ class packetbeat(
   Stdlib::Absolutepath $path_logs                                     = '/var/log/packetbeat',
   Optional[Array[Hash]] $processors                                   = undef,
   Optional[Hash] $queue                                               = undef,
+  Integer $queue_size                                                 = 1000,
   Enum['enabled', 'disabled', 'running', 'unmanaged'] $service_ensure = 'enabled',
   Boolean $service_has_restart                                        = true,
   Integer $snaplen                                                    = 65535,

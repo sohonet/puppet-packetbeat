@@ -4,10 +4,10 @@ Changelog
 ## [0.2.0]
 
 - Adding support for Packetbeat 6.0
--- Removing the `queue_size` class parameter, this setting has been removed from all beats
 -- Removing unsupported sniffer type `pf_ring` from available `sniff_type` options
--- Adding new parameter `major_version` to install Packetbeat 6.0 from vendor repositories
+-- Adding new parameter `major_version` to allow installation of 6.x packages from vendor
 -- Adding new optional parameter `queue` to configure internal queue settings
+- Parameter `queue_size` is only applicable if `major_version` is '5'
 
 ## [0.1.1](https://github.com/corey-hammerton/puppet-packetbeat/tree/0.1.1)
 
