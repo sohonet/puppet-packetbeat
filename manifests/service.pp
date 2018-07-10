@@ -1,6 +1,10 @@
-class packetbeat::service {
-  assert_private()
-
+# packetbeat::service
+# @api private
+#
+# Manages the state of Service['packetbeat']
+#
+# @summary Manages the state of Service['packetbeat']
+class packetbeat::service inherits packetbeat {
   if $packetbeat::ensure == 'present' {
     case $packetbeat::service_ensure {
       'enabled': {

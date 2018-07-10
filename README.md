@@ -87,6 +87,21 @@ class{'packetbeat':
 
 [Network device configuation](https://www.elastic.co/guide/en/beats/packetbeat/current/configuration-interfaces.html) and [logging](https://www.elastic.co/guide/en/beats/packetbeat/current/configuration-logging.html) can be configured the same way. Please review the documentation of the [elastic website](https://www.elastic.co/guide/en/beats/packetbeat/current/index.html)
 
+### Upgrading to 6.0
+
+Version 0.2.0 of this module supports Packetbeat 6.0. Please review the [Packetbeat Changelog](https://www.elastic.co/guide/en/beats/libbeat/6.0/release-notes-6.0.0.html)
+for a full list of software changes and the Module Changelog for a list of module updates.
+
+To upgrade existing installations:
+
+```puppet
+class{'packetbeat':
+  major_version  => '6',
+  package_ensure => 'latest',
+  ...
+}
+```
+
 ### Processors
 
 Libbeat 5.0 and later include a feature for filtering/enhancing exported data
@@ -158,6 +173,9 @@ Installs and configures packetbeat.
   (default: '0644')
 - `device`: [String] The name of the interface from which to capture traffic.
   (default: 'any')
+- `disable_config_test`: [Boolean] If true, disable configuration file testing. It
+   is generally recommended to leave this parameter at this default value.
+   (default: false)
 - `fields`: [Hash] Optional fields to add any additional information to the output.
   (default: undef)
 - `fields_under_root`: [Boolean] By default custom fields are under a `fields`
@@ -174,22 +192,18 @@ Installs and configures packetbeat.
 - `logging`: [Hash] Defines packetbeat's logging configuration, if not explicitly
   configured all logging output is forwarded to syslog on Linux nodes and file
   output on Windows. See the [docs](https://www.elastic.co/guide/en/beats/packetbeat/current/configuration-logging.html) for all available options.
+- `major_version`: [Enum] The major version of Packetbeat to install. Valid values
+  are '5' and '6'. (default: '5')
 - `manage_repo`: [Boolean] When false does not install the upstream repository
   to the node's package manager. (default: true)
 - `package_ensure`: [String] The desired state of the Package resources. Only
   applicable if `ensure` is 'present'. (default: 'present')
-- `path_conf`: [Stdlib::Absolutepath] The base path for all packetbeat
-  configurations. (default: /etc/packetbeat)
-- `path_data`: [Stdlib::Absolutepath] The base path to where packetbeat stores
-  its data. (default: /var/lib/packetbeat)
-- `path_home`: [Stdlib::Absolutepath] The base path for the packetbeat installation,
-  where the packetbeat binary is stored. (default: /usr/share/packetbeat)
-- `path_logs`: [Stdlib::Absolutepath] The base path for packetbeat's log files.
-  (default: /var/log/packetbeat)
 - `processors`: [Array[Hash]] Add processors to the configuration to run on data
   before sending to the output. (default: undef)
+- `queue`: [Hash] Configure the internal queue in packetbeat before being consumed
+  by the output(s).
 - `queue_size`: [Integer] The queue size for single events in the processing
-  pipeline. (default: 1000)
+   pipeline. This is only applicable if `major_version` is '5'. (default: 1000)
 - `service_ensure`: [String] Determine the state of the packet beat service. Must
   be one of 'enabled', 'disabled', 'running', 'unmanaged'. (default: enabled)
 - `service_has_restart`: [Boolean] When true the Service resource issues the
@@ -198,9 +212,7 @@ Installs and configures packetbeat.
   environments can accept the default, on a physical interface the optimal value
   is the MTU size. (default: 65535)
 - `sniff_type`: [String] Configure the sniffer type, packet beat only supports
-  'pcap', 'af_packet' (Linux only, faster than 'pcap') and 'pf_ring' (Requires
-  a kernel module and a re-compilation of Packetbeat, not supported by Elastic).
-  (default: 'pcap')
+  'pcap', and 'af_packet' (Linux only, faster than 'pcap') (default: 'pcap')
 - `tags`: [Array] Optional list of tags to help group different logical properties
   easily. (default: undef)
 - `with_vlans`: [Boolean] If traffic contains VLAN tags all traffic is offset by
@@ -211,7 +223,7 @@ Installs and configures packetbeat.
 
 #### Class: `packetbeat::config`
 
-Manages packetbeats main configuration file under `path_conf`
+Manages packetbeats main configuration file.
 
 #### Class: `packetbeat::install`
 
@@ -243,14 +255,15 @@ please consider writing tests if applicable.
 
 ### Testing
 
-In the root of your checkout directory execute the following commands to setup
-and perform automatic testing of new code submissions.
+Sandbox testing is done through the [PDK](https://puppet.com/docs/pdk/1.0/index.html) utility provided by
+Puppet. To utilize `PDK` execute the following commands to validate and
+test the new code:
 
-1. Installs all Ruby Gems
+1. Validate syntax of `metadata.json`, all `*.pp*` and all `*.rb` files
 ```
-bundle install
+pdk validate
 ```
-1. Perform tests
+2. Perform tests
 ```
-bundle exec rake validate test rubocop
+pdk test unit
 ```

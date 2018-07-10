@@ -1,6 +1,6 @@
 {
   "name": "coreyh-packetbeat",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "coreyh",
   "summary": "A module to install and manage the packetbeat network packet analyzer",
   "license": "Apache-2.0",
@@ -85,7 +85,7 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">=4.0.0 <5.0.0"
+      "version_requirement": ">=4.0.0 <6.0.0"
     }
   ]
 }

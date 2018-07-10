@@ -4,6 +4,8 @@
 # This class installs the Elastic packetbeat network packet analyzer
 # and manages the configuration.
 #
+# @summary Installs, configures and manages Packetbeat on the target node.
+#
 # Parameters
 # ----------
 #
@@ -34,6 +36,10 @@
 # [String] The name of the interface device from which to capture the 
 # traffic. (default: 'any')
 #
+# * `disable_config_test`
+# [Boolean] If true, disable configuration file testing. It is generally
+# recommended to leave this parameter at this default value. (default: false)
+#
 # * `fields`
 # Optional[Hash] Optional fields to add additional information to the output.
 # (default: undef)
@@ -61,6 +67,10 @@
 # [Hash] The configuration section of `packetbeat.yml` for configuring the
 # logging output.
 #
+# * `major_version`
+# [Enum] The major version of Packetbeat to install from vendor repositories.
+# Valid values are '5' and '6'. (default: '5')
+#
 # * `manage_repo`
 # [Boolean] Weather the upstream (elastic) repo should be configured or
 # not. (default: true)
@@ -68,27 +78,20 @@
 # * `package_ensure`
 # [String] The state the packetbeat package should be in. (default: present)
 #
-# * `path_conf`
-# [Absolute Path] The location of the configuration files. This setting
-# also controls the path to `packetbeat.yml`.
-#
-# * `path_data`
-# [Absolute Path] The location of the persistent data files.
-#
-# * `path_home`
-# [Absolute Path] The home of the Packetbeat configuration.
-#
-# * `path_logs`
-# [Absolute Path] The location of the logs created by Packetbeat.
-#
 # * `processors`
 # Optional[Array[Hash]] Configure processors to perform filtering, 
 # enhancing or additional decoding of data before being sent to the
 # output.
 #
+# * 'queue`
+# [Hash] Configure the internal queue before being consumed by the 
+# output(s) in bulk transactions. As of 6.0 only a memory queue is
+# available, all settings must be configured by example: { 'mem' => {...}}.
+#
 # * `queue_size`
 # [Number] The internal queue size for single events in the processing
-# pipeline. (default: 1000)
+# pipeline. This is only applicable if $major_version is '5'.
+# (default: 1000)
 #
 # * `service_ensure`
 # [String] The desired state of the packetbeat service. Must be one of
@@ -104,7 +107,7 @@
 #
 # * `sniff_type`
 # [String] The sniffer type to use. Packet only has support for pcap,
-# af_packet and pf_ring. (default: 'pcap')
+# and af_packet. (default: 'pcap')
 #
 # * `tags`
 # Optional[Array] A list of values to include in the `tags` field in each published
@@ -133,44 +136,41 @@
 # --------
 #
 # @example
-#    class { 'packetbeat':
-#      processors => [
-#        {
-#          'drop_fields' => {
-#            'fields' => ['field1', 'field2']
-#          }
-#        }
-#      ],
-#      protocols => {
-#        'icmp' => {
-#          'enabled' => true
-#        }
-#      },
-#      outputs   => {
-#        'elasticsearch' => {
-#          'hosts' => ['localhost:9200']
-#        }
-#      }
-#    }
-#
-#
-# Corey Hammerton <corey.hammerton@gmail.com>
-#
+# class{'packetbeat':
+#   processors => [
+#     {
+#       'drop_fields' => {
+#         'fields' => ['field1', 'field2']
+#       }
+#     }
+#   ],
+#   protocols => {
+#     'icmp' => {
+#       'enabled' => true
+#     }
+#   },
+#   outputs   => {
+#     'elasticsearch' => {
+#       'hosts' => ['localhost:9200']
+#     }
+#   }
+# }
 class packetbeat(
-  Hash $outputs,
-  Hash $protocols,
-  Pattern[/^present|absent$/] $ensure                             = 'present',
-  String $beat_name                                               = $::hostname,
-  Optional[String] $bpf_filter                                    = undef,
-  Optional[Integer] $buffer_size_mb                               = undef,
-  String $config_file_mode                                        = '0644',
-  String $device                                                  = 'any',
-  Optional[Hash] $fields                                          = undef,
-  Boolean $fields_under_root                                      = false,
-  Boolean $flow_enable                                            = true,
-  String $flow_period                                             = '10s',
-  String $flow_timeout                                            = '30s',
-  Hash $logging                                                   = {
+  Hash $outputs                                                       = {},
+  Hash $protocols                                                     = {},
+  Enum['present', 'absent'] $ensure                                   = 'present',
+  String $beat_name                                                   = $::hostname,
+  Optional[String] $bpf_filter                                        = undef,
+  Optional[Integer] $buffer_size_mb                                   = undef,
+  String $config_file_mode                                            = '0644',
+  String $device                                                      = 'any',
+  Boolean $disable_config_test                                        = false,
+  Optional[Hash] $fields                                              = undef,
+  Boolean $fields_under_root                                          = false,
+  Boolean $flow_enable                                                = true,
+  String $flow_period                                                 = '10s',
+  String $flow_timeout                                                = '30s',
+  Hash $logging                                                       = {
     'to_files' => true,
     'level'    => 'info',
     'metrics'  => {
@@ -184,26 +184,33 @@ class packetbeat(
       'rotateeverybytes' => 10485760,
     },
   },
-  Boolean $manage_repo                                            = true,
-  String $package_ensure                                          = 'present',
-  String $path_conf                                               = '/etc/packetbeat',
-  String $path_data                                               = '/var/lib/packetbeat',
-  String $path_home                                               = '/usr/share/packetbeat',
-  String $path_logs                                               = '/var/log/packetbeat',
-  Optional[Array[Hash]] $processors                               = undef,
-  Integer $queue_size                                             = 1000,
-  Pattern[/^enabled|disabled|running|unmanaged$/] $service_ensure = 'enabled',
-  Boolean $service_has_restart                                    = true,
-  Integer $snaplen                                                = 65535,
-  Pattern[/^pcap|af_packet|pf_ring$/] $sniff_type                 = 'pcap',
-  Optional[Array[String]] $tags                                   = undef,
-  Optional[Boolean] $with_vlans                                   = undef,
+  Enum['5', '6'] $major_version                                       = '5',
+  Boolean $manage_repo                                                = true,
+  String $package_ensure                                              = 'present',
+  Optional[Array[Hash]] $processors                                   = undef,
+  Hash $queue                                                         = {
+    'mem' => {
+      'events' => 4096,
+      'flush'  => {
+        'min_events' => 0,
+        'timeout'    => '0s',
+      },
+    },
+  },
+  Integer $queue_size                                                 = 1000,
+  Enum['enabled', 'disabled', 'running', 'unmanaged'] $service_ensure = 'enabled',
+  Boolean $service_has_restart                                        = true,
+  Integer $snaplen                                                    = 65535,
+  Enum['pcap', 'af_packet'] $sniff_type                               = 'pcap',
+  Optional[Array[String]] $tags                                       = undef,
+  Optional[Boolean] $with_vlans                                       = undef,
 ) {
   if $manage_repo {
     class{'::packetbeat::repo':}
 
     Anchor['packetbeat::begin']
     -> Class['packetbeat::repo']
+    -> Class['packetbeat::install']
   }
 
   if $ensure == 'present' {
