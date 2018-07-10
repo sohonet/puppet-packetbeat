@@ -52,6 +52,5 @@ class packetbeat::config {
     group        => 'root',
     mode         => $packetbeat::config_file_mode,
     content      => inline_template("### Packetbeat configuration managed by Puppet ###\n\n<%= @packetbeat_config.to_yaml() %>"),
-    validate_cmd => "${packetbeat::path_home}/bin/packetbeat -N -configtest -e %",
   }
 }
