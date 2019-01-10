@@ -10,7 +10,7 @@
   "tags": ["packetbeat", "elasticsearch", "logstash", "elastic"],
   "dependencies": [
     {"name":"puppetlabs-stdlib","version_requirement":">= 4.13.0 < 5.0.0"},
-    {"name":"puppetlabs-apt","version_requirement":">= 2.0.0 < 3.0.0"},
+    {"name":"puppetlabs-apt","version_requirement":">= 2.0.0 < 6.3.0"},
     {"name":"darin-zypprepo","version_requirement":">= 1.0.0 < 2.0.0"}
   ],
   "data_provider": null,
